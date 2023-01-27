@@ -11,7 +11,7 @@ const CreditCalc = () => {
           Do kiedy chcesz spłacać kredyt?
           <input type="date" id="date" />
         </label>
-
+aa
         <label htmlFor="rrso">
           Podaj RRSO banku
           <input type="text" id="rrso" /> %
