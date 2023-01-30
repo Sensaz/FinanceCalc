@@ -124,7 +124,7 @@ const CompoundInterestCalc = () => {
 
   const timeResultInvesting =
     periodType === "periodYear" ? (
-      <span>{period + " lat"}</span>
+      <span> {period + " lat"}</span>
     ) : (
       <span>
         {(period - (period % 12)) / 12 +
@@ -193,14 +193,17 @@ const CompoundInterestCalc = () => {
           </select>
         </label>
         <button onClick={calculate}>Oblicz</button>
+      </form>
         <div id="result">
           Rezultatem twojej inwestycji będzie kwota:
           {result !== 0 ? <span>{result}</span> : null}
           <br />
           Czas trwania inwestycji wyniesie:
           {timeResultInvesting}
+          <br />
+          Zysk z odsetek wyniesie:
+          {<span> {(result - basicValue).toFixed(2)}</span>}
         </div>
-      </form>
     </div>
   );
 };

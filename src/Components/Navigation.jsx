@@ -2,6 +2,11 @@ import { NavLink } from "react-router-dom";
 import "../Styles/Navigation.sass";
 const nav = [
   {
+    id: 0,
+    path: "",
+    content: "Strona główna",
+  },
+  {
     id: 1,
     path: "/companyValutionCalc",
     content: "Kalkulator wyceny spółek",
