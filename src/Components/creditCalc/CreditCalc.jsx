@@ -53,6 +53,7 @@ const CreditCalc = () => {
 
   //Odsetki
   const [ods, setOds] = useState(spd * (i / 100));
+  // let ods = spd * (i / 100);
 
   // Rata Płatności Kredytu
   const [rpk, setRpk] = useState(rk + ods);
@@ -75,6 +76,7 @@ const CreditCalc = () => {
   const creditAmortizationEqualCapitalInstallments = () => {
     setIsActive((prev) => !prev);
     for (let n = 0; n < creditDuration; n++) {
+      console.log({ n });
       // ---------------------------------
       // ---------------------------------
       setSpd((prev) => {
@@ -89,6 +91,7 @@ const CreditCalc = () => {
         arrOdsRef.current = [...arrOdsRef.current, newOds];
         return newOds;
       });
+
       // ---------------------------------
       // ---------------------------------
       arrRkRef.current = [...arrRkRef.current, rk];
@@ -115,6 +118,37 @@ const CreditCalc = () => {
     console.log(arrRpkRef);
     console.log(arrSkdRef);
   };
+
+  // const creditAmortizationEqualCapitalInstallments = () => {
+  //   for (let n = 0; n < creditDuration; n++) {
+  //     // ---------------------------------
+  //     // ---------------------------------
+  //     setSpd((prev) => prev - rk);
+  //     arrSpd = [...arrSpd, spd];
+  //     // ---------------------------------
+  //     // ---------------------------------
+  //     setOds((prev) => (prev = spd * (i / 100)));
+  //     arrOds = [...arrOds, ods];
+  //     // ---------------------------------
+  //     // ---------------------------------
+  //     arrRk = [...arrRk, rk];
+  //     // ---------------------------------
+  //     // ---------------------------------
+  //     setRpk(rk + ods);
+  //     arrRpk = [...arrRpk, rpk];
+  //     // ---------------------------------
+  //     // ---------------------------------
+  //     setSkd(spd - rk);
+  //     arrSkd = [...arrSkd, skd];
+  //   }
+  //     arrSkdRef.current = [...arrSkdRef.current, skd];
+  //   }
+  //   console.log(arrSpdRef);
+  //   console.log(arrOdsRef);
+  //   console.log(arrRkRef);
+  //   console.log(arrRpkRef);
+  //   console.log(arrSkdRef);
+  // };
 
   return (
     <div>
