@@ -1,16 +1,6 @@
 import "../../Styles/CreditTable.sass";
 import React from "react";
-
-const CreditTable = ({
-  arrSpdRef,
-  arrOdsRef,
-  arrRkRef,
-  arrRpkRef,
-  arrSkdRef,
-  isActive,
-}) => {
-  const allArray = [arrSpdRef, arrOdsRef, arrRkRef, arrRpkRef, arrSkdRef];
-
+const CreditTable = ({ arrRkRef, arrays, isActive }) => {
   return (
     <>
       {isActive ? (
@@ -27,7 +17,7 @@ const CreditTable = ({
           <tbody>
             {arrRkRef.current.map((_, index) => (
               <tr key={index}>
-                {allArray.map((el) => (
+                {arrays.map((el) => (
                   <td key={index + Math.random() * 300}>
                     {el.current[index].toFixed(2)}
                   </td>

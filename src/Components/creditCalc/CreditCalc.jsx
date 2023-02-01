@@ -1,15 +1,29 @@
 import "../../Styles/CreditCalc.sass";
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import CreditTable from "./CreditTable";
 import CreditForm from "./CreditForm";
 
 const CreditCalc = () => {
+  // Wartość kredytu
   const [creditValue, setCreditValue] = useState(10000);
-  const [dateValue, setDateValue] = useState(12);
-  const [rrsoValue, setRrsoValue] = useState(12);
-  const [interestStatus, setInterestStatus] = useState("interestTop");
+  // Czas trwania kredytu
+  const [dateValue, setDateValue] = useState(10);
+  // Wartość oprocentowania wg banku
+  const [rrsoValue, setRrsoValue] = useState(10);
+  // Odsetki płatne z góry / dołu
+  const [interestStatus, setInterestStatus] = useState("interestBottom");
+  // Status Prowizji
   const [commissionStatus, setCommissionStatus] = useState("commissionYes");
+  // Wartość Prowizji
   const [commissionValue, setCommissionValue] = useState(0);
+  // flaga do wyświetlenia tabeli
+  const [isActive, setIsActive] = useState(false);
+
+  useEffect(() => {
+    return () => {
+      setCommissionValue(0);
+    };
+  }, [commissionStatus]);
 
   const creditDuration = dateValue * 1;
 
@@ -43,13 +57,16 @@ const CreditCalc = () => {
 
   // Nominalna Roczna Stopa Procentowa
   const nrsp = rrsoValue;
+
   // Oprocentowanie w okresie bazowym
   const i = nrsp / m();
-  // Rata Kapitałowa
-  let rk = parseInt((creditValue / creditDuration).toFixed(2));
 
   // Prowizja
   let commission = creditValue * (commissionValue / 100);
+  // Rata Kapitałowa
+
+  let rk = parseInt(((creditValue - commission) / creditDuration).toFixed(2));
+
   //Saldo Początkowe Długu
   let spd = parseInt(creditValue - commission);
 
@@ -60,8 +77,6 @@ const CreditCalc = () => {
   let rpk = rk + ods;
   // Saldo Końcowe Długu
   let skd = spd - rk;
-  // flaga do wyświetlenia tabeli
-  const [isActive, setIsActive] = useState(false);
 
   // tablice
   const arrSpdRef = useRef([spd]);
@@ -69,27 +84,37 @@ const CreditCalc = () => {
   const arrRkRef = useRef([rk]);
   const arrRpkRef = useRef([rpk]);
   const arrSkdRef = useRef([skd]);
+  const arrays = [arrSpdRef, arrOdsRef, arrRkRef, arrRpkRef, arrSkdRef];
+
+  useEffect(() => {
+    return () => {
+      arrSpdRef.current = [];
+      arrOdsRef.current = [];
+      arrRkRef.current = [];
+      arrRpkRef.current = [];
+      arrSkdRef.current = [];
+    };
+  }, [isActive]);
 
   // Wyrysuje tabele dla kredytu spłacanego metodą równych rat kapitałowych
 
   const creditAmortizationEqualCapitalInstallments = () => {
-    console.log(commission);
     if (interestStatus === "interestTop") {
       ods = spd * (i / 100) * m();
       spd = spd - ods;
       rk = spd / creditDuration;
       rpk = rk;
       skd = spd - rk;
-      arrSpdRef.current.splice(-1);
+
+      arrays.forEach((arr) => {
+        arr.current.splice(-1);
+      });
       arrSpdRef.current.push(spd);
-      arrOdsRef.current.splice(-1);
       arrOdsRef.current.push(0);
-      arrRkRef.current.splice(-1);
       arrRkRef.current.push(rk);
-      arrRpkRef.current.splice(-1);
       arrRpkRef.current.push(rpk);
-      arrSkdRef.current.splice(-1);
       arrSkdRef.current.push(skd);
+
       for (let n = 0; n < creditDuration; n++) {
         // ---------------------------------
         // ---------------------------------
@@ -111,6 +136,11 @@ const CreditCalc = () => {
         arrSkdRef.current = [...arrSkdRef.current, skd];
       }
     } else {
+      arrSpdRef.current.push(spd);
+      arrOdsRef.current.push(ods);
+      arrRkRef.current.push(rk);
+      arrRpkRef.current.push(rpk);
+      arrSkdRef.current.push(skd);
       for (let n = 0; n < creditDuration; n++) {
         // ---------------------------------
         // ---------------------------------
@@ -134,17 +164,10 @@ const CreditCalc = () => {
       }
     }
 
-    arrSpdRef.current.splice(-1);
-    arrOdsRef.current.splice(-1);
-    arrRkRef.current.splice(-1);
-    arrRpkRef.current.splice(-1);
-    arrSkdRef.current.splice(-1);
+    arrays.forEach((arr) => {
+      arr.current.splice(-1);
+    });
     setIsActive((prev) => !prev);
-    console.log(arrSpdRef);
-    console.log(arrOdsRef);
-    console.log(arrRkRef);
-    console.log(arrRpkRef);
-    console.log(arrSkdRef);
   };
   return (
     <div>
@@ -167,14 +190,7 @@ const CreditCalc = () => {
         isActive={isActive}
       />
 
-      <CreditTable
-        arrSpdRef={arrSpdRef}
-        arrOdsRef={arrOdsRef}
-        arrRkRef={arrRkRef}
-        arrRpkRef={arrRpkRef}
-        arrSkdRef={arrSkdRef}
-        isActive={isActive}
-      />
+      <CreditTable arrays={arrays} arrRkRef={arrRkRef} isActive={isActive} />
     </div>
   );
 };
