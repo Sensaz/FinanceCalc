@@ -55,7 +55,7 @@ const CreditForm = ({
       </label>
 
       <label htmlFor="rrso">
-        Podaj RRSO banku
+        Podaj RRSO kredytu
         <input
           onChange={handleSetRrsoValue}
           value={rrsoValue}
@@ -67,7 +67,7 @@ const CreditForm = ({
       </label>
 
       <label htmlFor="interest">
-        Bank pobiera odsetki płatne z 
+        Bank pobiera odsetki płatne z
         <select
           onChange={handleSelectInterestStatus}
           value={interestStatus}

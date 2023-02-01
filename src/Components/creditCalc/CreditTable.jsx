@@ -1,4 +1,5 @@
 import "../../Styles/CreditTable.sass";
+import React from "react";
 
 const CreditTable = ({
   arrSpdRef,
@@ -9,6 +10,7 @@ const CreditTable = ({
   isActive,
 }) => {
   const allArray = [arrSpdRef, arrOdsRef, arrRkRef, arrRpkRef, arrSkdRef];
+
   return (
     <>
       {isActive ? (
@@ -25,13 +27,11 @@ const CreditTable = ({
           <tbody>
             {arrRkRef.current.map((_, index) => (
               <tr key={index}>
-                {allArray.map(
-                  (el) => (
-                    <td key={index + Math.random() * 300}>
-                      {el.current[index].toFixed(2)}
-                    </td>
-                  )
-                )}
+                {allArray.map((el) => (
+                  <td key={index + Math.random() * 300}>
+                    {el.current[index].toFixed(2)}
+                  </td>
+                ))}
               </tr>
             ))}
           </tbody>
@@ -41,4 +41,4 @@ const CreditTable = ({
   );
 };
 
-export default CreditTable;
+export default React.memo(CreditTable);
