@@ -50,10 +50,10 @@ const CreditCalc = () => {
   const nrsp = rrsoValue;
 
   // Oprocentowanie w okresie bazowym
-  const i = nrsp / m();
+  const i = nrsp / m() / 100;
 
   // Prowizja
-  let commission;
+  let commission = creditValue * (commissionValue / 100);
 
   //Saldo Początkowe Długu
   let spd;
@@ -91,10 +91,9 @@ const CreditCalc = () => {
   // Wyrysuje tabele dla kredytu spłacanego metodą równych rat kapitałowych
 
   const creditAmortizationEqualCapitalInstallments = () => {
-    commission = creditValue * (commissionValue / 100);
     rk = parseInt((creditValue / creditDuration).toFixed(2));
     spd = parseInt(creditValue);
-    ods = spd * (i / 100);
+    ods = spd * i;
     rpk = rk + ods;
     skd = spd - rk;
 
@@ -110,7 +109,7 @@ const CreditCalc = () => {
       arrSpdRef.current = [...arrSpdRef.current, spd];
       // ---------------------------------
       // ---------------------------------
-      ods = spd * (i / 100);
+      ods = spd * i;
       arrOdsRef.current = [...arrOdsRef.current, ods];
       // ---------------------------------
       // ---------------------------------
@@ -133,7 +132,7 @@ const CreditCalc = () => {
 
   // Wyrysuje tabele dla Odsetek płatnych z góry
   const creditAmortizationEqualInterestBottom = () => {
-    ods = creditValue * (i / 100) * m();
+    ods = creditValue * i * m();
     spd = creditValue - ods;
     rk = spd / creditDuration;
     rpk = rk;
@@ -171,11 +170,10 @@ const CreditCalc = () => {
 
   // Wyrysuje tabele dla kredytu spłacanego metodą równych rat płatności kredytu
   const creditAmortizationEqualInstallmentsOfLoanPayments = () => {
-    const mwbr = (1 - 1 / Math.pow(1 + i / 100, creditDuration)) / (i / 100);
+    const mwbr = (1 - 1 / Math.pow(1 + i, creditDuration)) / i;
     console.log(mwbr);
-    commission = creditValue * (commissionValue / 100);
     spd = parseInt(creditValue);
-    ods = spd * (i / 100); // 2
+    ods = spd * i; // 2
     rpk = spd / mwbr; // 1 *
     rk = rpk - ods; // 3
     skd = spd - rk; // 4
@@ -192,7 +190,7 @@ const CreditCalc = () => {
       arrSpdRef.current = [...arrSpdRef.current, spd];
       // ---------------------------------
       // ---------------------------------
-      ods = spd * (i / 100);
+      ods = spd * i;
       arrOdsRef.current = [...arrOdsRef.current, ods];
       // ---------------------------------
       // ---------------------------------
@@ -251,6 +249,10 @@ const CreditCalc = () => {
         arraysRk={arraysRk}
         arrRkRef={arrRkRef}
         isActive={isActive}
+        i={i}
+        dateValue={dateValue}
+        commission={commission}
+        creditValue={creditValue}
       />
     </div>
   );

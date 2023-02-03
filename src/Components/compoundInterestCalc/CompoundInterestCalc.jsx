@@ -1,4 +1,6 @@
 import { useState } from "react";
+import "../../Styles/Form.sass";
+import "../../Styles/Interest.sass";
 
 const MIN = 0;
 
@@ -134,7 +136,7 @@ const CompoundInterestCalc = () => {
     setInterestAdditionalContributions(
       (interestFinalyExtraPay - finalyExtraPay).toFixed(2)
     );
-    setResult((fv + finalyExtraPay).toFixed(2));
+    setResult((fv + interestFinalyExtraPay).toFixed(2));
     return setFlag((prev) => !prev);
   };
 
@@ -211,19 +213,19 @@ const CompoundInterestCalc = () => {
         <span>
           {flag ? `Rezultatem twojej inwestycji będzie kwota: ${result}` : null}
         </span>
-        <br />
+
         <span>
           {flag
             ? `Czas trwania inwestycji wyniesie: ${timeResultInvesting}`
             : null}
         </span>
-        <br />
+
         <span>{flag ? `Zysk z odsetek wyniesie: ${interestValue}` : null}</span>
-        <br />
+
         <span>
           {flag ? `Dodatkowo wpłacisz: ${additionalContributions}` : null}
         </span>
-        <br />
+
         <span>
           {flag
             ? `Odsetki z dodatkowych wpłat dadzą: ${interestAdditionalContributions}`

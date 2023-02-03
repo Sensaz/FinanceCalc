@@ -1,4 +1,4 @@
-import "../../Styles/CreditTable.sass";
+import "../../Styles/Form.sass";
 
 const CreditForm = ({
   setCreditValue,
