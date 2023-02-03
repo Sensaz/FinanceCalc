@@ -13,7 +13,9 @@ const CreditForm = ({
   interestStatus,
   commissionStatus,
   commissionValue,
-  creditAmortizationEqualCapitalInstallments,
+  handlecreditAmortizationSelectMethod,
+  paymentInstallments,
+  setPaymentInstallments,
   isActive,
 }) => {
   const handleChange = (setter) => (e) => setter(e.target.value);
@@ -24,7 +26,7 @@ const CreditForm = ({
   const handleSelectInterestStatus = handleChange(setInterestStatus);
   const handleSelectCommissionStatus = handleChange(setCommissionStatus);
   const handleSetCommissionValue = handleChange(setCommissionValue);
-
+  const handlePaymentInstallments = handleChange(setPaymentInstallments);
   const handleSubmitForm = (e) => {
     e.preventDefault();
   };
@@ -55,7 +57,7 @@ const CreditForm = ({
       </label>
 
       <label htmlFor="rrso">
-        Podaj RRSO kredytu
+        Podaj NRSP kredytu
         <input
           onChange={handleSetRrsoValue}
           value={rrsoValue}
@@ -102,7 +104,21 @@ const CreditForm = ({
         ) : null}
       </label>
 
-      <button onClick={creditAmortizationEqualCapitalInstallments}>
+      <label htmlFor="paymentInstallments">
+        Biore kredyt spłacany metodą
+        <select
+          onChange={handlePaymentInstallments}
+          value={paymentInstallments}
+          id="paymentInstallments"
+        >
+          {/* Equal capital installments */}
+          <option value="eci">Równych Rat Kapitałowych</option>
+          {/* Equal loan payment installments */}
+          <option value="elpi">Równych Rat Płatności Kredytu</option>
+        </select>
+      </label>
+
+      <button onClick={handlecreditAmortizationSelectMethod}>
         {isActive
           ? "Ukryj Tabele Amortyzacji Kredytu"
           : "Pokaż Tabele Amortyzacji Kredytu"}

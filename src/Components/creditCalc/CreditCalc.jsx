@@ -5,17 +5,18 @@ import CreditForm from "./CreditForm";
 
 const CreditCalc = () => {
   // Wartość kredytu
-  const [creditValue, setCreditValue] = useState(10000);
+  const [creditValue, setCreditValue] = useState(1000);
   // Czas trwania kredytu
-  const [dateValue, setDateValue] = useState(10);
+  const [dateValue, setDateValue] = useState(4);
   // Wartość oprocentowania wg banku
-  const [rrsoValue, setRrsoValue] = useState(10);
+  const [rrsoValue, setRrsoValue] = useState(24);
   // Odsetki płatne z góry / dołu
   const [interestStatus, setInterestStatus] = useState("interestBottom");
   // Status Prowizji
-  const [commissionStatus, setCommissionStatus] = useState("commissionYes");
+  const [commissionStatus, setCommissionStatus] = useState("commissionNo");
   // Wartość Prowizji
   const [commissionValue, setCommissionValue] = useState(0);
+  const [paymentInstallments, setPaymentInstallments] = useState("elpi");
   // flaga do wyświetlenia tabeli
   const [isActive, setIsActive] = useState(false);
 
@@ -26,7 +27,6 @@ const CreditCalc = () => {
   }, [commissionStatus]);
 
   const creditDuration = dateValue * 1;
-
   // m - Ilość kapitalizacji w roku
   const m = () => {
     if (creditDuration % 12 === 0) {
@@ -39,16 +39,7 @@ const CreditCalc = () => {
       }
     } else {
       if (creditDuration / 12 >= 1) {
-        // reszta miesięcy
-        const x = creditDuration % 12;
-        // ilość lat
-        const l = creditDuration - x;
-        const n = l / 12;
-        // ilość miesięcy w roku
-        const y = (creditDuration - x) / n;
-
-        // ilość lat
-        return `mamy ${y} miesięcy przez ${n} lat oraz ${x} miesięcy na ostatni rok`;
+        return 12;
       } else {
         return creditDuration % 12;
       }
@@ -62,29 +53,30 @@ const CreditCalc = () => {
   const i = nrsp / m();
 
   // Prowizja
-  let commission = creditValue * (commissionValue / 100);
-  // Rata Kapitałowa
-
-  let rk = parseInt(((creditValue - commission) / creditDuration).toFixed(2));
+  let commission;
 
   //Saldo Początkowe Długu
-  let spd = parseInt(creditValue - commission);
+  let spd;
+
+  // Rata Kapitałowa
+  let rk;
 
   //Odsetki
-  let ods = spd * (i / 100);
+  let ods;
 
   // Rata Płatności Kredytu
-  let rpk = rk + ods;
-  // Saldo Końcowe Długu
-  let skd = spd - rk;
+  let rpk;
 
-  // tablice
+  // Saldo Końcowe Długu
+  let skd;
+
+  // tablice dla metody płatności równych rat kapitałowych
   const arrSpdRef = useRef([spd]);
   const arrOdsRef = useRef([ods]);
   const arrRkRef = useRef([rk]);
   const arrRpkRef = useRef([rpk]);
   const arrSkdRef = useRef([skd]);
-  const arrays = [arrSpdRef, arrOdsRef, arrRkRef, arrRpkRef, arrSkdRef];
+  const arraysRk = [arrSpdRef, arrOdsRef, arrRkRef, arrRpkRef, arrSkdRef];
 
   useEffect(() => {
     return () => {
@@ -99,76 +91,139 @@ const CreditCalc = () => {
   // Wyrysuje tabele dla kredytu spłacanego metodą równych rat kapitałowych
 
   const creditAmortizationEqualCapitalInstallments = () => {
-    if (interestStatus === "interestTop") {
-      ods = spd * (i / 100) * m();
-      spd = spd - ods;
-      rk = spd / creditDuration;
-      rpk = rk;
+    commission = creditValue * (commissionValue / 100);
+    rk = parseInt((creditValue / creditDuration).toFixed(2));
+    spd = parseInt(creditValue);
+    ods = spd * (i / 100);
+    rpk = rk + ods;
+    skd = spd - rk;
+
+    arrSpdRef.current.push(spd);
+    arrOdsRef.current.push(ods);
+    arrRkRef.current.push(rk);
+    arrRpkRef.current.push(rpk);
+    arrSkdRef.current.push(skd);
+    for (let n = 0; n < creditDuration; n++) {
+      // ---------------------------------
+      // ---------------------------------
+      spd = spd - rk;
+      arrSpdRef.current = [...arrSpdRef.current, spd];
+      // ---------------------------------
+      // ---------------------------------
+      ods = spd * (i / 100);
+      arrOdsRef.current = [...arrOdsRef.current, ods];
+      // ---------------------------------
+      // ---------------------------------
+      arrRkRef.current = [...arrRkRef.current, rk];
+      // ---------------------------------
+      // ---------------------------------
+      rpk = rk + ods;
+      arrRpkRef.current = [...arrRpkRef.current, rpk];
+      // ---------------------------------
+      // ---------------------------------
       skd = spd - rk;
-
-      arrays.forEach((arr) => {
-        arr.current.splice(-1);
-      });
-      arrSpdRef.current.push(spd);
-      arrOdsRef.current.push(0);
-      arrRkRef.current.push(rk);
-      arrRpkRef.current.push(rpk);
-      arrSkdRef.current.push(skd);
-
-      for (let n = 0; n < creditDuration; n++) {
-        // ---------------------------------
-        // ---------------------------------
-        spd = spd - rk;
-        arrSpdRef.current = [...arrSpdRef.current, spd];
-        // ---------------------------------
-        // ---------------------------------
-        arrOdsRef.current = [...arrOdsRef.current, 0];
-        // ---------------------------------
-        // ---------------------------------
-        arrRkRef.current = [...arrRkRef.current, rk];
-        // ---------------------------------
-        // ---------------------------------
-        rpk = rk;
-        arrRpkRef.current = [...arrRpkRef.current, rpk];
-        // ---------------------------------
-        // ---------------------------------
-        skd = spd - rk;
-        arrSkdRef.current = [...arrSkdRef.current, skd];
-      }
-    } else {
-      arrSpdRef.current.push(spd);
-      arrOdsRef.current.push(ods);
-      arrRkRef.current.push(rk);
-      arrRpkRef.current.push(rpk);
-      arrSkdRef.current.push(skd);
-      for (let n = 0; n < creditDuration; n++) {
-        // ---------------------------------
-        // ---------------------------------
-        spd = spd - rk;
-        arrSpdRef.current = [...arrSpdRef.current, spd];
-        // ---------------------------------
-        // ---------------------------------
-        ods = spd * (i / 100);
-        arrOdsRef.current = [...arrOdsRef.current, ods];
-        // ---------------------------------
-        // ---------------------------------
-        arrRkRef.current = [...arrRkRef.current, rk];
-        // ---------------------------------
-        // ---------------------------------
-        rpk = rk + ods;
-        arrRpkRef.current = [...arrRpkRef.current, rpk];
-        // ---------------------------------
-        // ---------------------------------
-        skd = spd - rk;
-        arrSkdRef.current = [...arrSkdRef.current, skd];
-      }
+      arrSkdRef.current = [...arrSkdRef.current, skd];
     }
 
-    arrays.forEach((arr) => {
+    arraysRk.forEach((arr) => {
       arr.current.splice(-1);
     });
     setIsActive((prev) => !prev);
   };
+
+  // Wyrysuje tabele dla Odsetek płatnych z góry
+  const creditAmortizationEqualInterestBottom = () => {
+    ods = creditValue * (i / 100) * m();
+    spd = creditValue - ods;
+    rk = spd / creditDuration;
+    rpk = rk;
+    skd = spd - rk;
+    arrSpdRef.current.push(spd);
+    arrOdsRef.current.push(0);
+    arrRkRef.current.push(rk);
+    arrRpkRef.current.push(rpk);
+    arrSkdRef.current.push(skd);
+    for (let n = 0; n < creditDuration; n++) {
+      // ---------------------------------
+      // ---------------------------------
+      spd = spd - rk;
+      arrSpdRef.current = [...arrSpdRef.current, spd];
+      // ---------------------------------
+      // ---------------------------------
+      arrOdsRef.current = [...arrOdsRef.current, 0];
+      // ---------------------------------
+      // ---------------------------------
+      arrRkRef.current = [...arrRkRef.current, rk];
+      // ---------------------------------
+      // ---------------------------------
+      rpk = rk;
+      arrRpkRef.current = [...arrRpkRef.current, rpk];
+      // ---------------------------------
+      // ---------------------------------
+      skd = spd - rk;
+      arrSkdRef.current = [...arrSkdRef.current, skd];
+    }
+    arraysRk.forEach((arr) => {
+      arr.current.splice(-1);
+    });
+    setIsActive((prev) => !prev);
+  };
+
+  // Wyrysuje tabele dla kredytu spłacanego metodą równych rat płatności kredytu
+  const creditAmortizationEqualInstallmentsOfLoanPayments = () => {
+    const mwbr = (1 - 1 / Math.pow(1 + i / 100, creditDuration)) / (i / 100);
+    console.log(mwbr);
+    commission = creditValue * (commissionValue / 100);
+    spd = parseInt(creditValue);
+    ods = spd * (i / 100); // 2
+    rpk = spd / mwbr; // 1 *
+    rk = rpk - ods; // 3
+    skd = spd - rk; // 4
+
+    arrSpdRef.current.push(spd);
+    arrOdsRef.current.push(ods);
+    arrRkRef.current.push(rk);
+    arrRpkRef.current.push(rpk);
+    arrSkdRef.current.push(skd);
+    for (let n = 0; n < creditDuration; n++) {
+      // ---------------------------------
+      // ---------------------------------
+      spd = spd - rk;
+      arrSpdRef.current = [...arrSpdRef.current, spd];
+      // ---------------------------------
+      // ---------------------------------
+      ods = spd * (i / 100);
+      arrOdsRef.current = [...arrOdsRef.current, ods];
+      // ---------------------------------
+      // ---------------------------------
+      rk = rpk - ods;
+      arrRkRef.current = [...arrRkRef.current, rk];
+      // ---------------------------------
+      // ---------------------------------
+      arrRpkRef.current = [...arrRpkRef.current, rpk];
+      // ---------------------------------
+      // ---------------------------------
+      skd = spd - rk;
+      arrSkdRef.current = [...arrSkdRef.current, skd];
+    }
+    arraysRk.forEach((arr) => {
+      arr.current.splice(-1);
+    });
+    setIsActive((prev) => !prev);
+  };
+
+  const handlecreditAmortizationSelectMethod = () => {
+    if (interestStatus === "interestBottom") {
+      if (paymentInstallments === "elpi") {
+        creditAmortizationEqualInstallmentsOfLoanPayments();
+      } else {
+        creditAmortizationEqualCapitalInstallments();
+      }
+    } else {
+      creditAmortizationEqualInterestBottom();
+    }
+  };
+
   return (
     <div>
       <CreditForm
@@ -178,19 +233,25 @@ const CreditCalc = () => {
         setInterestStatus={setInterestStatus}
         setCommissionStatus={setCommissionStatus}
         setCommissionValue={setCommissionValue}
-        creditAmortizationEqualCapitalInstallments={
-          creditAmortizationEqualCapitalInstallments
+        handlecreditAmortizationSelectMethod={
+          handlecreditAmortizationSelectMethod
         }
+        setPaymentInstallments={setPaymentInstallments}
         creditValue={creditValue}
         dateValue={dateValue}
         rrsoValue={rrsoValue}
         interestStatus={interestStatus}
         commissionStatus={commissionStatus}
         commissionValue={commissionValue}
+        paymentInstallments={paymentInstallments}
         isActive={isActive}
       />
 
-      <CreditTable arrays={arrays} arrRkRef={arrRkRef} isActive={isActive} />
+      <CreditTable
+        arraysRk={arraysRk}
+        arrRkRef={arrRkRef}
+        isActive={isActive}
+      />
     </div>
   );
 };
