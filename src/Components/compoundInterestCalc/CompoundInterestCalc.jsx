@@ -137,7 +137,7 @@ const CompoundInterestCalc = () => {
       (interestFinalyExtraPay - finalyExtraPay).toFixed(2)
     );
     setResult((fv + interestFinalyExtraPay).toFixed(2));
-    return setFlag((prev) => !prev);
+    return setFlag(true);
   };
 
   let timeResultInvesting;

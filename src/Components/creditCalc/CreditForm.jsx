@@ -42,7 +42,6 @@ const CreditForm = ({
           min="0"
           id="credit"
         />
-        zł
       </label>
 
       <label htmlFor="date">
