@@ -19,19 +19,22 @@ const CompoundInterestCalc = () => {
   const [extraPay, setExtraPay] = useState(10);
   // Co ile dodatkowo będziemy wpłacać
   const [extraPayType, setExtraPayType] = useState("monthly");
-
+  // Rezultat z inwestycji
   const [result, setResult] = useState(null);
+  // Zysk z odsetek
   const [interestValue, setInterestValue] = useState(null);
+  // Dodatkowe wpłaty przed naliczeniem %
   const [additionalContributions, setAdditionalContributions] = useState(null);
+  // Dodatkowe wpłaty po naliczeniu %
   const [interestAdditionalContributions, setInterestAdditionalContributions] =
     useState(0);
 
   const [flag, setFlag] = useState(false);
 
-  let finalyExtraPay = 0;
   const calcExtraPay = () => {
-    if (extraPay * 1 === 0) return;
-    const periods = periodType === "periodMonth" ? period * 1 : period * 12;
+    if (parseInt(extraPay) === 0) return;
+    const periods =
+      periodType === "periodMonth" ? parseInt(period) : period * 12;
     let payTypeRatio = 0;
     // eslint-disable-next-line default-case
     switch (extraPayType) {
@@ -45,7 +48,37 @@ const CompoundInterestCalc = () => {
         payTypeRatio = 12;
         break;
     }
-    finalyExtraPay = extraPay * (periods / payTypeRatio);
+    return extraPay * (periods / payTypeRatio);
+  };
+
+  // m - ilość kapitalizacji w roku
+  const m = () => {
+    switch (capitalization) {
+      case "interestDay":
+        return 365;
+      case "interestMonth":
+        return 12;
+      case "interestQuarter":
+        return 4;
+      case "interestSixMonth":
+        return 2;
+      case "interestYear":
+        return 1;
+      default:
+        return 12;
+    }
+  };
+
+  // n = łączna ilość kapitalizacji
+  const n = () => {
+    switch (periodType) {
+      case "periodYear":
+        return m() * period;
+      case "periodMonth":
+        return (period / 12) * m();
+      default:
+        return m() * period;
+    }
   };
 
   const calculate = (e) => {
@@ -54,57 +87,33 @@ const CompoundInterestCalc = () => {
     const pv = parseInt(basicValue);
     // NRSP = interest (nominalna roczna stopa procentowa)
     const nrsp = interest;
-    // m = switch dla capitalization (ilość kapitalizacji w roku)
-    let m;
-    switch (capitalization) {
-      case "interestDay":
-        m = 365;
-        break;
-      case "interestMonth":
-        m = 12;
-        break;
-      case "interestQuarter":
-        m = 4;
-        break;
-      case "interestSixMonth":
-        m = 2;
-        break;
-      case "interestYear":
-        m = 1;
-        break;
-      default:
-        m = 12;
-    }
     // i = NRSP / m
-    const i = nrsp / m / 100;
-    // n = łączna ilość kapitalizacji
-    let n;
-    switch (periodType) {
-      case "periodYear":
-        n = m * period;
-        break;
-      case "periodMonth":
-        n = (period / 12) * m;
-        break;
-      default:
-        n = m * period;
-    }
-    // pieniądze które będziemy mieli kiedyś = pieniądze które mamy teraz * (1 + oprocentowanie w okresie bazowym)do potęgi łącznej ilość kapitalizacji inwestycji
-    let fv = pv * Math.pow(1 + i, n);
-    // jeśli extraPayType jest ustawione na "monthly", to dodajemy extraPay do fv co miesiąc
-    let interestFinalyExtraPay = 0;
+    const i = nrsp / m() / 100;
 
-    calcExtraPay(finalyExtraPay);
+    // pieniądze które będziemy mieli kiedyś = pieniądze które mamy teraz * (1 + oprocentowanie w okresie bazowym) do potęgi łącznej ilośći kapitalizacji inwestycji
+    let fv = pv * Math.pow(1 + i, n());
 
-    interestFinalyExtraPay = finalyExtraPay * Math.pow(1 + i, n);
+    calcExtraPay();
 
-    setInterestValue((fv - pv).toFixed(2));
-    setAdditionalContributions(finalyExtraPay);
-    setInterestAdditionalContributions(
-      (interestFinalyExtraPay - finalyExtraPay).toFixed(2)
-    );
-    setResult((fv + interestFinalyExtraPay).toFixed(2));
-    return setFlag(true);
+    const interestFinalyExtraPay = calcExtraPay() * Math.pow(1 + i, n());
+
+    // Rezultatem twojej inwestycji będzie kwota
+    const investitionResult = (fv + interestFinalyExtraPay).toFixed(2);
+    setResult(investitionResult);
+
+    // Zysk z odsetek wyniesie
+    const investitionIV = (fv - pv).toFixed(2);
+    setInterestValue(investitionIV);
+
+    // Dodatkowo wpłacisz
+    const investitionAC = calcExtraPay().toFixed(2);
+    setAdditionalContributions(investitionAC);
+
+    // Odsetki z dodatkowych wpłat wyniosą
+    const investitionIAC = (interestFinalyExtraPay - calcExtraPay()).toFixed(2);
+    setInterestAdditionalContributions(investitionIAC);
+
+    setFlag(true);
   };
 
   let timeResultInvesting;

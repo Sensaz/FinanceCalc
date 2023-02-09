@@ -8,17 +8,36 @@ const CreditTable = ({
   commission,
   creditValue,
   i,
+  rrsoValue,
+  interestStatus,
 }) => {
   let odsSum = 0;
   let rpkSum = 0;
-  arraysRk[1].current.forEach((element) => {
-    odsSum += element;
-  });
-  arraysRk[3].current.forEach((element) => {
-    rpkSum += element;
-  });
+  if (interestStatus === "interestBottom") {
+    arraysRk[1].current.forEach((element) => {
+      odsSum += element;
+    });
+  } else {
+    odsSum = creditValue * (rrsoValue / 100);
+  }
 
-  const myMoney = creditValue - commission;
+  if (interestStatus === "interestBottom") {
+    arraysRk[3].current.forEach((element) => {
+      rpkSum += element;
+    });
+  } else {
+    arraysRk[3].current.forEach((element) => {
+      rpkSum += element;
+    });
+    rpkSum += odsSum;
+  }
+
+  const myMoney = () => {
+    if (interestStatus === "interestTop")
+      return creditValue - commission - creditValue * (rrsoValue / 100);
+    else return creditValue - commission;
+  };
+
   const ersp = ((Math.pow(1 + i, dateValue) - 1) * 100).toFixed(2);
 
   return (
@@ -50,7 +69,7 @@ const CreditTable = ({
             </tbody>
           </table>
           <div>
-            <span>Dostaniesz: {myMoney}</span>
+            <span>Dostaniesz: {myMoney().toFixed(2)}</span>
             <span>Odsetki cię wyniosą: {odsSum.toFixed(2)}</span>
             <span>Łącznie oddasz Bankowi: {rpkSum.toFixed(2)}</span>
             <span>

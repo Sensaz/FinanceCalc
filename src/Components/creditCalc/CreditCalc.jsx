@@ -8,7 +8,7 @@ const CreditCalc = () => {
   const [creditValue, setCreditValue] = useState(1000);
   // Czas trwania kredytu
   const [dateValue, setDateValue] = useState(4);
-  // Wartość oprocentowania wg banku
+  // Wartość oprocentowania wg ciebie
   const [rrsoValue, setRrsoValue] = useState(24);
   // Odsetki płatne z góry / dołu
   const [interestStatus, setInterestStatus] = useState("interestBottom");
@@ -29,23 +29,10 @@ const CreditCalc = () => {
   const creditDuration = dateValue * 1;
   // m - Ilość kapitalizacji w roku
   const m = () => {
-    if (creditDuration % 12 === 0) {
-      if (creditDuration / 12 === 1) {
-        return creditDuration;
-      } else {
-        const x = creditDuration / 12;
-        const l = creditDuration / x;
-        return l;
-      }
-    } else {
-      if (creditDuration / 12 >= 1) {
-        return 12;
-      } else {
-        return creditDuration % 12;
-      }
-    }
+    if (creditDuration < 12) return creditDuration;
+    else if (creditDuration >= 12) return 12;
   };
-
+  console.log(m());
   // Nominalna Roczna Stopa Procentowa
   const nrsp = rrsoValue;
 
@@ -70,7 +57,7 @@ const CreditCalc = () => {
   // Saldo Końcowe Długu
   let skd;
 
-  // tablice dla metody płatności równych rat kapitałowych
+  // tablice służące do renderowania tabeli
   const arrSpdRef = useRef([spd]);
   const arrOdsRef = useRef([ods]);
   const arrRkRef = useRef([rk]);
@@ -171,7 +158,6 @@ const CreditCalc = () => {
   // Wyrysuje tabele dla kredytu spłacanego metodą równych rat płatności kredytu
   const creditAmortizationEqualInstallmentsOfLoanPayments = () => {
     const mwbr = (1 - 1 / Math.pow(1 + i, creditDuration)) / i;
-    console.log(mwbr);
     spd = parseInt(creditValue);
     ods = spd * i; // 2
     rpk = spd / mwbr; // 1 *
@@ -253,6 +239,8 @@ const CreditCalc = () => {
         dateValue={dateValue}
         commission={commission}
         creditValue={creditValue}
+        rrsoValue={rrsoValue}
+        interestStatus={interestStatus}
       />
     </div>
   );
