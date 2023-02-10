@@ -10,7 +10,7 @@ import ErrorPage from "./ErrorPage";
 const Page = () => {
   const location = useLocation();
   const negative = useNavigate();
-  // Zmienić w route redirect
+  // Zmienić w route redirect jak???
   useEffect(() => {
     switch (location.pathname) {
       case "/":

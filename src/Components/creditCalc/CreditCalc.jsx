@@ -26,89 +26,95 @@ const CreditCalc = () => {
     };
   }, [commissionStatus]);
 
-  const creditDuration = dateValue * 1;
-  // m - Ilość kapitalizacji w roku
-  const m = () => {
+  const creditDuration = parseInt(dateValue);
+
+  // Ilość kapitalizacji w roku
+  const annualCapitalization = () => {
     if (creditDuration < 12) return creditDuration;
     else if (creditDuration >= 12) return 12;
   };
-  console.log(m());
   // Nominalna Roczna Stopa Procentowa
-  const nrsp = rrsoValue;
+  const nominalAnnualInterestRate = rrsoValue;
 
   // Oprocentowanie w okresie bazowym
-  const i = nrsp / m() / 100;
+  const basePeriodInterest =
+    nominalAnnualInterestRate / annualCapitalization() / 100;
 
   // Prowizja
-  let commission = creditValue * (commissionValue / 100);
+  let commissionFee = creditValue * (commissionValue / 100);
 
   //Saldo Początkowe Długu
-  let spd;
-
-  // Rata Kapitałowa
-  let rk;
+  let initialDebtBalance;
 
   //Odsetki
-  let ods;
+  let interestPayment;
+
+  // Rata Kapitałowa
+  let capitalRepayment;
 
   // Rata Płatności Kredytu
-  let rpk;
+  let totalLoanRepayment;
 
   // Saldo Końcowe Długu
-  let skd;
+  let finalDebtBalance;
 
   // tablice służące do renderowania tabeli
-  const arrSpdRef = useRef([spd]);
-  const arrOdsRef = useRef([ods]);
-  const arrRkRef = useRef([rk]);
-  const arrRpkRef = useRef([rpk]);
-  const arrSkdRef = useRef([skd]);
-  const arraysRk = [arrSpdRef, arrOdsRef, arrRkRef, arrRpkRef, arrSkdRef];
+  // Tablica dla salda początkowego długu
+  const initialDebtBalanceArr = useRef([initialDebtBalance]);
+  // Tablica odsetek
+  const interestPaymentArr = useRef([interestPayment]);
+  // Tablica dla rat kapitałowych
+  const capitalRepaymentArr = useRef([capitalRepayment]);
+  // Tablica dla rat płatności kredytu
+  const totalLoanRepaymentArr = useRef([totalLoanRepayment]);
+  // Tablica dla sald końcowych długu
+  const finalDebtBalanceArr = useRef([finalDebtBalance]);
+
+  const arraysRk = [initialDebtBalanceArr, interestPaymentArr, capitalRepaymentArr, totalLoanRepaymentArr, finalDebtBalanceArr];
 
   useEffect(() => {
     return () => {
-      arrSpdRef.current = [];
-      arrOdsRef.current = [];
-      arrRkRef.current = [];
-      arrRpkRef.current = [];
-      arrSkdRef.current = [];
+      initialDebtBalanceArr.current = [];
+      interestPaymentArr.current = [];
+      capitalRepaymentArr.current = [];
+      totalLoanRepaymentArr.current = [];
+      finalDebtBalanceArr.current = [];
     };
   }, [isActive]);
 
   // Wyrysuje tabele dla kredytu spłacanego metodą równych rat kapitałowych
+  const calculateEqualCapitalInstallments = () => {
+    capitalRepayment = parseInt((creditValue / creditDuration).toFixed(2));
+    initialDebtBalance = parseInt(creditValue);
+    interestPayment = initialDebtBalance * basePeriodInterest;
+    totalLoanRepayment = capitalRepayment + interestPayment;
+    finalDebtBalance = initialDebtBalance - capitalRepayment;
 
-  const creditAmortizationEqualCapitalInstallments = () => {
-    rk = parseInt((creditValue / creditDuration).toFixed(2));
-    spd = parseInt(creditValue);
-    ods = spd * i;
-    rpk = rk + ods;
-    skd = spd - rk;
-
-    arrSpdRef.current.push(spd);
-    arrOdsRef.current.push(ods);
-    arrRkRef.current.push(rk);
-    arrRpkRef.current.push(rpk);
-    arrSkdRef.current.push(skd);
+    initialDebtBalanceArr.current.push(initialDebtBalance);
+    interestPaymentArr.current.push(interestPayment);
+    capitalRepaymentArr.current.push(capitalRepayment);
+    totalLoanRepaymentArr.current.push(totalLoanRepayment);
+    finalDebtBalanceArr.current.push(finalDebtBalance);
     for (let n = 0; n < creditDuration; n++) {
       // ---------------------------------
       // ---------------------------------
-      spd = spd - rk;
-      arrSpdRef.current = [...arrSpdRef.current, spd];
+      initialDebtBalance = initialDebtBalance - capitalRepayment;
+      initialDebtBalanceArr.current = [...initialDebtBalanceArr.current, initialDebtBalance];
       // ---------------------------------
       // ---------------------------------
-      ods = spd * i;
-      arrOdsRef.current = [...arrOdsRef.current, ods];
+      interestPayment = initialDebtBalance * basePeriodInterest;
+      interestPaymentArr.current = [...interestPaymentArr.current, interestPayment];
       // ---------------------------------
       // ---------------------------------
-      arrRkRef.current = [...arrRkRef.current, rk];
+      capitalRepaymentArr.current = [...capitalRepaymentArr.current, capitalRepayment];
       // ---------------------------------
       // ---------------------------------
-      rpk = rk + ods;
-      arrRpkRef.current = [...arrRpkRef.current, rpk];
+      totalLoanRepayment = capitalRepayment + interestPayment;
+      totalLoanRepaymentArr.current = [...totalLoanRepaymentArr.current, totalLoanRepayment];
       // ---------------------------------
       // ---------------------------------
-      skd = spd - rk;
-      arrSkdRef.current = [...arrSkdRef.current, skd];
+      finalDebtBalance = initialDebtBalance - capitalRepayment;
+      finalDebtBalanceArr.current = [...finalDebtBalanceArr.current, finalDebtBalance];
     }
 
     arraysRk.forEach((arr) => {
@@ -118,36 +124,36 @@ const CreditCalc = () => {
   };
 
   // Wyrysuje tabele dla Odsetek płatnych z góry
-  const creditAmortizationEqualInterestBottom = () => {
-    ods = creditValue * i * m();
-    spd = creditValue - ods;
-    rk = spd / creditDuration;
-    rpk = rk;
-    skd = spd - rk;
-    arrSpdRef.current.push(spd);
-    arrOdsRef.current.push(0);
-    arrRkRef.current.push(rk);
-    arrRpkRef.current.push(rpk);
-    arrSkdRef.current.push(skd);
+  const calculateEqualInterestBottom = () => {
+    interestPayment = creditValue * basePeriodInterest * annualCapitalization();
+    initialDebtBalance = creditValue - interestPayment;
+    capitalRepayment = initialDebtBalance / creditDuration;
+    totalLoanRepayment = capitalRepayment;
+    finalDebtBalance = initialDebtBalance - capitalRepayment;
+    initialDebtBalanceArr.current.push(initialDebtBalance);
+    interestPaymentArr.current.push(0);
+    capitalRepaymentArr.current.push(capitalRepayment);
+    totalLoanRepaymentArr.current.push(totalLoanRepayment);
+    finalDebtBalanceArr.current.push(finalDebtBalance);
     for (let n = 0; n < creditDuration; n++) {
       // ---------------------------------
       // ---------------------------------
-      spd = spd - rk;
-      arrSpdRef.current = [...arrSpdRef.current, spd];
+      initialDebtBalance = initialDebtBalance - capitalRepayment;
+      initialDebtBalanceArr.current = [...initialDebtBalanceArr.current, initialDebtBalance];
       // ---------------------------------
       // ---------------------------------
-      arrOdsRef.current = [...arrOdsRef.current, 0];
+      interestPaymentArr.current = [...interestPaymentArr.current, 0];
       // ---------------------------------
       // ---------------------------------
-      arrRkRef.current = [...arrRkRef.current, rk];
+      capitalRepaymentArr.current = [...capitalRepaymentArr.current, capitalRepayment];
       // ---------------------------------
       // ---------------------------------
-      rpk = rk;
-      arrRpkRef.current = [...arrRpkRef.current, rpk];
+      totalLoanRepayment = capitalRepayment;
+      totalLoanRepaymentArr.current = [...totalLoanRepaymentArr.current, totalLoanRepayment];
       // ---------------------------------
       // ---------------------------------
-      skd = spd - rk;
-      arrSkdRef.current = [...arrSkdRef.current, skd];
+      finalDebtBalance = initialDebtBalance - capitalRepayment;
+      finalDebtBalanceArr.current = [...finalDebtBalanceArr.current, finalDebtBalance];
     }
     arraysRk.forEach((arr) => {
       arr.current.splice(-1);
@@ -156,39 +162,41 @@ const CreditCalc = () => {
   };
 
   // Wyrysuje tabele dla kredytu spłacanego metodą równych rat płatności kredytu
-  const creditAmortizationEqualInstallmentsOfLoanPayments = () => {
-    const mwbr = (1 - 1 / Math.pow(1 + i, creditDuration)) / i;
-    spd = parseInt(creditValue);
-    ods = spd * i; // 2
-    rpk = spd / mwbr; // 1 *
-    rk = rpk - ods; // 3
-    skd = spd - rk; // 4
+  const calculateEqualInstallmentsOfLoanPayments = () => {
+    const mwbr =
+      (1 - 1 / Math.pow(1 + basePeriodInterest, creditDuration)) /
+      basePeriodInterest;
+    initialDebtBalance = parseInt(creditValue);
+    interestPayment = initialDebtBalance * basePeriodInterest; // 2
+    totalLoanRepayment = initialDebtBalance / mwbr; // 1 *
+    capitalRepayment = totalLoanRepayment - interestPayment; // 3
+    finalDebtBalance = initialDebtBalance - capitalRepayment; // 4
 
-    arrSpdRef.current.push(spd);
-    arrOdsRef.current.push(ods);
-    arrRkRef.current.push(rk);
-    arrRpkRef.current.push(rpk);
-    arrSkdRef.current.push(skd);
+    initialDebtBalanceArr.current.push(initialDebtBalance);
+    interestPaymentArr.current.push(interestPayment);
+    capitalRepaymentArr.current.push(capitalRepayment);
+    totalLoanRepaymentArr.current.push(totalLoanRepayment);
+    finalDebtBalanceArr.current.push(finalDebtBalance);
     for (let n = 0; n < creditDuration; n++) {
       // ---------------------------------
       // ---------------------------------
-      spd = spd - rk;
-      arrSpdRef.current = [...arrSpdRef.current, spd];
+      initialDebtBalance = initialDebtBalance - capitalRepayment;
+      initialDebtBalanceArr.current = [...initialDebtBalanceArr.current, initialDebtBalance];
       // ---------------------------------
       // ---------------------------------
-      ods = spd * i;
-      arrOdsRef.current = [...arrOdsRef.current, ods];
+      interestPayment = initialDebtBalance * basePeriodInterest;
+      interestPaymentArr.current = [...interestPaymentArr.current, interestPayment];
       // ---------------------------------
       // ---------------------------------
-      rk = rpk - ods;
-      arrRkRef.current = [...arrRkRef.current, rk];
+      capitalRepayment = totalLoanRepayment - interestPayment;
+      capitalRepaymentArr.current = [...capitalRepaymentArr.current, capitalRepayment];
       // ---------------------------------
       // ---------------------------------
-      arrRpkRef.current = [...arrRpkRef.current, rpk];
+      totalLoanRepaymentArr.current = [...totalLoanRepaymentArr.current, totalLoanRepayment];
       // ---------------------------------
       // ---------------------------------
-      skd = spd - rk;
-      arrSkdRef.current = [...arrSkdRef.current, skd];
+      finalDebtBalance = initialDebtBalance - capitalRepayment;
+      finalDebtBalanceArr.current = [...finalDebtBalanceArr.current, finalDebtBalance];
     }
     arraysRk.forEach((arr) => {
       arr.current.splice(-1);
@@ -196,15 +204,15 @@ const CreditCalc = () => {
     setIsActive((prev) => !prev);
   };
 
-  const handlecreditAmortizationSelectMethod = () => {
+  const handleSelectedAmortizationMethod  = () => {
     if (interestStatus === "interestBottom") {
       if (paymentInstallments === "elpi") {
-        creditAmortizationEqualInstallmentsOfLoanPayments();
+        calculateEqualInstallmentsOfLoanPayments();
       } else {
-        creditAmortizationEqualCapitalInstallments();
+        calculateEqualCapitalInstallments();
       }
     } else {
-      creditAmortizationEqualInterestBottom();
+      calculateEqualInterestBottom();
     }
   };
 
@@ -217,8 +225,8 @@ const CreditCalc = () => {
         setInterestStatus={setInterestStatus}
         setCommissionStatus={setCommissionStatus}
         setCommissionValue={setCommissionValue}
-        handlecreditAmortizationSelectMethod={
-          handlecreditAmortizationSelectMethod
+        handleSelectedAmortizationMethod ={
+          handleSelectedAmortizationMethod 
         }
         setPaymentInstallments={setPaymentInstallments}
         creditValue={creditValue}
@@ -233,11 +241,11 @@ const CreditCalc = () => {
 
       <CreditTable
         arraysRk={arraysRk}
-        arrRkRef={arrRkRef}
+        capitalRepaymentArr={capitalRepaymentArr}
         isActive={isActive}
-        i={i}
+        basePeriodInterest={basePeriodInterest}
         dateValue={dateValue}
-        commission={commission}
+        commissionFee={commissionFee}
         creditValue={creditValue}
         rrsoValue={rrsoValue}
         interestStatus={interestStatus}

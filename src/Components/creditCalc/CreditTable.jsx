@@ -1,13 +1,13 @@
 import "../../Styles/Table.sass";
 import React from "react";
 const CreditTable = ({
-  arrRkRef,
+  capitalRepaymentArr,
   arraysRk,
   isActive,
   dateValue,
-  commission,
+  commissionFee,
   creditValue,
-  i,
+  basePeriodInterest,
   rrsoValue,
   interestStatus,
 }) => {
@@ -34,11 +34,14 @@ const CreditTable = ({
 
   const myMoney = () => {
     if (interestStatus === "interestTop")
-      return creditValue - commission - creditValue * (rrsoValue / 100);
-    else return creditValue - commission;
+      return creditValue - commissionFee - creditValue * (rrsoValue / 100);
+    else return creditValue - commissionFee;
   };
 
-  const ersp = ((Math.pow(1 + i, dateValue) - 1) * 100).toFixed(2);
+  const ersp = (
+    (Math.pow(1 + basePeriodInterest, dateValue) - 1) *
+    100
+  ).toFixed(2);
 
   return (
     <>
@@ -56,7 +59,7 @@ const CreditTable = ({
               </tr>
             </thead>
             <tbody>
-              {arrRkRef.current.map((_, index) => (
+              {capitalRepaymentArr.current.map((_, index) => (
                 <tr key={index}>
                   <td key={index + Math.random() * 300}>{index + 1}</td>
                   {arraysRk.map((el) => (

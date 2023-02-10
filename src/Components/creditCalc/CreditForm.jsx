@@ -13,7 +13,7 @@ const CreditForm = ({
   interestStatus,
   commissionStatus,
   commissionValue,
-  handlecreditAmortizationSelectMethod,
+  handleSelectedAmortizationMethod,
   paymentInstallments,
   setPaymentInstallments,
   isActive,
@@ -117,7 +117,7 @@ const CreditForm = ({
         </select>
       </label>
 
-      <button onClick={handlecreditAmortizationSelectMethod}>
+      <button onClick={handleSelectedAmortizationMethod}>
         {isActive
           ? "Ukryj Tabele Amortyzacji Kredytu"
           : "Pokaż Tabele Amortyzacji Kredytu"}
