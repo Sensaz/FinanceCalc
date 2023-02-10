@@ -35,6 +35,7 @@ const CompoundInterestCalc = () => {
     if (parseInt(extraPay) === 0) return;
     const periods =
       periodType === "periodMonth" ? parseInt(period) : period * 12;
+
     let payTypeRatio = 0;
     // eslint-disable-next-line default-case
     switch (extraPayType) {
@@ -52,7 +53,7 @@ const CompoundInterestCalc = () => {
   };
 
   // m - ilość kapitalizacji w roku
-  const m = () => {
+  const calculateCapitalizationPerYear = () => {
     switch (capitalization) {
       case "interestDay":
         return 365;
@@ -70,32 +71,36 @@ const CompoundInterestCalc = () => {
   };
 
   // n = łączna ilość kapitalizacji
-  const n = () => {
+  const calculateTotalCapitalizations = () => {
     switch (periodType) {
       case "periodYear":
-        return m() * period;
+        return calculateCapitalizationPerYear() * period;
       case "periodMonth":
-        return (period / 12) * m();
+        return (period / 12) * calculateCapitalizationPerYear();
       default:
-        return m() * period;
+        return calculateCapitalizationPerYear() * period;
     }
   };
 
   const calculate = (e) => {
     e.preventDefault();
-    // PV = basicValue (pieniądze które mamy teraz)
+    // PV (Present Value) = basicValue (pieniądze które mamy teraz)
     const pv = parseInt(basicValue);
-    // NRSP = interest (nominalna roczna stopa procentowa)
-    const nrsp = interest;
-    // i = NRSP / m
-    const i = nrsp / m() / 100;
-
+    // (nominalna roczna stopa procentowa)
+    const nominalAnnualInterestRate = interest;
+    // i = nominalAnnualInterestRate / calculateCapitalizationPerYear
+    const basePeriodInterest =
+      nominalAnnualInterestRate / calculateCapitalizationPerYear() / 100;
     // pieniądze które będziemy mieli kiedyś = pieniądze które mamy teraz * (1 + oprocentowanie w okresie bazowym) do potęgi łącznej ilośći kapitalizacji inwestycji
-    let fv = pv * Math.pow(1 + i, n());
+    // FutureValue
+    const fv =
+      pv * Math.pow(1 + basePeriodInterest, calculateTotalCapitalizations());
 
     calcExtraPay();
 
-    const interestFinalyExtraPay = calcExtraPay() * Math.pow(1 + i, n());
+    const interestFinalyExtraPay =
+      calcExtraPay() *
+      Math.pow(1 + basePeriodInterest, calculateTotalCapitalizations());
 
     // Rezultatem twojej inwestycji będzie kwota
     const investitionResult = (fv + interestFinalyExtraPay).toFixed(2);
