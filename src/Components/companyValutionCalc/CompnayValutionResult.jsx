@@ -1,3 +1,7 @@
+import { useState } from "react";
+
+import Popup from "./Popup";
+
 const CompnayValutionResult = ({
   ps,
   pe,
@@ -76,16 +80,30 @@ const CompnayValutionResult = ({
     },
   ];
 
+  const [showPopup, setShowPopup] = useState(false);
+  const [popupContent, setPopupContent] = useState();
+
+  const handleHelpClick = (e) => {
+    setShowPopup(true);
+    const contentInfo = e.currentTarget.getAttribute("contentInfo");
+    setPopupContent(contentInfo);
+  };
   return (
     <>
       {help.map(({ id, title, info, score }) => {
         return (
           <p key={id}>
             {title} {score}
-            <span title={info}>[?]</span>
+            <span contentInfo={info} onClick={handleHelpClick}>
+              {" "}
+              [?]
+            </span>
           </p>
         );
       })}
+      {showPopup && (
+        <Popup content={popupContent} setShowPopup={setShowPopup} />
+      )}
     </>
   );
 };

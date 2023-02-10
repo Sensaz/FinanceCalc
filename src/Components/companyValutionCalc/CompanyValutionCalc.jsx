@@ -1,6 +1,5 @@
 import { useState } from "react";
 import "../../Styles/Form.sass";
-import "../../Styles/CompanyValution.sass";
 import CompanyValutionForm from "./form/CompanyValutionForm";
 import CompnayValutionResult from "./CompnayValutionResult";
 

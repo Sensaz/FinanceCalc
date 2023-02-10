@@ -72,13 +72,13 @@ const CreditTable = ({
             </tbody>
           </table>
           <div>
-            <span>Dostaniesz: {myMoney().toFixed(2)}</span>
-            <span>Odsetki cię wyniosą: {odsSum.toFixed(2)}</span>
-            <span>Łącznie oddasz Bankowi: {rpkSum.toFixed(2)}</span>
-            <span>
+            <p>Dostaniesz: {myMoney().toFixed(2)}</p>
+            <p>Odsetki cię wyniosą: {odsSum.toFixed(2)}</p>
+            <p>Łącznie oddasz Bankowi: {rpkSum.toFixed(2)}</p>
+            <p>
               Efektywna / Rzeczywista Roczna Stopa Procentowa (ERSP / RRSO) ={" "}
               {ersp} %
-            </span>
+            </p>
           </div>
         </>
       ) : null}

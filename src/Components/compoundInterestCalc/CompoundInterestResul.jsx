@@ -36,10 +36,10 @@ const CompoundInterestResul = ({
     <div id="result">
       {result.map((el) => {
         return (
-          <span key={el.id}>
+          <p key={el.id}>
             {el.content}
             {el.score}
-          </span>
+          </p>
         );
       })}
     </div>
