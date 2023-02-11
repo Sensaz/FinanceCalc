@@ -1,11 +1,14 @@
-.app 
+$app-background-color: #f4f4f4
+$app-font-family: Arial, Helvetica, sans-serif
+
+.app
   display: flex
   align-items: center
   min-height: 100vh
-  min-width: 99vw
-  font-family: Arial, Helvetica, sans-serif
-  background-color: #f4f4f4
-  .app__aside
-    width: 30%
-  .app__main
+  max-width: 99vw
+  font-family: $app-font-family
+  background-color: $app-background-color
+  &__aside
+    width: 30%  
+  &__main
     width: 70%

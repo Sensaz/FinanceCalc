@@ -1,15 +1,18 @@
-.list 
+$link-color: black
+$link-hover-color: rgb(2, 132, 199)
+
+.list
   list-style-type: none
-  .list__item
+  &__item
     margin: 15px 0
-    a
-      position: relative
-      text-decoration: none
-      color: black
-      transition: color .2s linear
-    a:hover
-      left: 10px
-      color: rgb(2, 132, 199)
-    a.active
-      left: 0
-      border-left: 10px solid rgb(2, 132, 199)
+  a
+    position: relative
+    text-decoration: none
+    color: $link-color
+    transition: color .2s linear
+  a:hover
+    left: 10px
+    color: $link-hover-color
+  a.active
+    left: 0px
+    border-left: 10px solid $link-hover-color

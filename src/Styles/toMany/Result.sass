@@ -1,3 +1,20 @@
+$result-item-width: fit-content
+$result-item-margin-bottom: 20px
+$result-item-padding: 10px 20px
+$result-item-border-radius: 10px
+$result-item-box-shadow: 0 2px 10px rgba(0,0,0,0.1)
+$result-item-info-hover-color: green
+
 .result
-  .result__item
-    color: red
+  &__item
+    width: $result-item-width
+    font-weight: bold
+    margin-bottom: $result-item-margin-bottom
+    padding: $result-item-padding
+    border-radius: $result-item-border-radius
+    box-shadow: $result-item-box-shadow
+    &-info
+      cursor: pointer
+      transition: color 0.1s ease-out
+      &:hover
+        color: $result-item-info-hover-color

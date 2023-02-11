@@ -1,5 +1,5 @@
 import { useState } from "react";
-
+import "../../Styles/toMany/Result.sass";
 import Popup from "./Popup";
 
 const CompnayValutionResult = ({
@@ -87,14 +87,19 @@ const CompnayValutionResult = ({
     setShowPopup(true);
     const contentInfo = e.currentTarget.getAttribute("contentInfo");
     setPopupContent(contentInfo);
+    document.body.classList.add("blur");
   };
   return (
-    <>
+    <div className="result">
       {help.map(({ id, title, info, score }) => {
         return (
-          <p key={id}>
+          <p key={id} className="result__item">
             {title} {score}
-            <span contentInfo={info} onClick={handleHelpClick}>
+            <span
+              contentInfo={info}
+              className="result__item-info"
+              onClick={handleHelpClick}
+            >
               {" "}
               [?]
             </span>
@@ -104,7 +109,7 @@ const CompnayValutionResult = ({
       {showPopup && (
         <Popup content={popupContent} setShowPopup={setShowPopup} />
       )}
-    </>
+    </div>
   );
 };
 export default CompnayValutionResult;

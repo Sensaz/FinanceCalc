@@ -1,0 +1,31 @@
+// .blur
+//   filter: blur(5px)
+$popup-background-color: #fff
+$popup-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2)
+$popup-border-radius: 10px
+$popup-z-index: 100
+$popup-text-align: center
+$close-color: red
+
+.popup
+  position: fixed
+  top: 50%
+  left: 50%
+  transform: translate(-50%, -50%)
+  background-color: $popup-background-color
+  padding: 20px
+  box-shadow: $popup-shadow
+  border-radius: $popup-border-radius
+  z-index: $popup-z-index
+  filter: none
+  &__content
+    text-align: $popup-text-align
+  &__close
+    position: absolute
+    top: 10px
+    right: 10px
+    color: $close-color
+    font-weight: bold
+    cursor: pointer
+
+  

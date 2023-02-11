@@ -1,5 +1,5 @@
 import { useState } from "react";
-import "../../Styles/compoundInterestCalc/CompoundInterestCalc"
+import "../../Styles/compoundInterestCalc/CompoundInterestCalc.sass"
 import CompoundInterestForm from "./CompoundInterestForm";
 import CompoundInterestResul from "./CompoundInterestResul";
 // Kalkulator Procentu Składanego

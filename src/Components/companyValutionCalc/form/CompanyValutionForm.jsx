@@ -1,6 +1,6 @@
 import { useState } from "react";
 import FScoreSurvey from "./fScore/FScoreSurvey";
-import "../../Styles/./toMany/Form.sass";
+import "../../../Styles/toMany/Form.sass";
 
 const CompanyValutionForm = ({
   setPe,

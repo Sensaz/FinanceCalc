@@ -1,6 +1,6 @@
 import "../../Styles/toMany/Result.sass";
 
-const CreditResult = ({ myMoney, odsSum, rpkSum, ersp }) => {
+const CreditResult = ({ myMoney, interestSum, loanRepaymentSum, CalculateEffectiveAnnualInterestRate }) => {
   const result = [
     {
       id: 0,
@@ -10,18 +10,18 @@ const CreditResult = ({ myMoney, odsSum, rpkSum, ersp }) => {
     {
       id: 1,
       content: "Odsetki cię wyniosą: ",
-      score: odsSum,
+      score: interestSum,
     },
     {
       id: 2,
       content: "Łącznie oddasz Bankowi: ",
-      score: rpkSum,
+      score: loanRepaymentSum,
     },
     {
       id: 3,
       content:
         "Efektywna / Rzeczywista Roczna Stopa Procentowa (ERSP / RRSO) = ",
-      score: ersp,
+      score: CalculateEffectiveAnnualInterestRate,
       extra: " %",
     },
   ];

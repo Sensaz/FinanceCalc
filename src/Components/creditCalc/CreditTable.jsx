@@ -13,25 +13,27 @@ const CreditTable = ({
   rrsoValue,
   interestStatus,
 }) => {
-  let odsSum = 0;
-  let rpkSum = 0;
+  // Suma odsetek
+  let interestSum = 0;
+  // Suma Rat Płatności kredytu
+  let loanRepaymentSum = 0;
   if (interestStatus === "interestBottom") {
     arraysRk[1].current.forEach((element) => {
-      odsSum += element;
+      interestSum += element;
     });
   } else {
-    odsSum = creditValue * (rrsoValue / 100);
+    interestSum = creditValue * (rrsoValue / 100);
   }
 
   if (interestStatus === "interestBottom") {
     arraysRk[3].current.forEach((element) => {
-      rpkSum += element;
+      loanRepaymentSum += element;
     });
   } else {
     arraysRk[3].current.forEach((element) => {
-      rpkSum += element;
+      loanRepaymentSum += element;
     });
-    rpkSum += odsSum;
+    loanRepaymentSum += interestSum;
   }
 
   const myMoney = () => {
@@ -40,7 +42,8 @@ const CreditTable = ({
     else return creditValue - commissionFee;
   };
 
-  const ersp = (
+  // Efektywna roczna stopa procentowa
+  const CalculateEffectiveAnnualInterestRate = (
     (Math.pow(1 + basePeriodInterest, dateValue) - 1) *
     100
   ).toFixed(2);
@@ -77,9 +80,9 @@ const CreditTable = ({
           </table>
           <CreditResult
             myMoney={myMoney}
-            odsSum={odsSum}
-            rpkSum={rpkSum}
-            ersp={ersp}
+            interestSum={interestSum}
+            loanRepaymentSum={loanRepaymentSum}
+            CalculateEffectiveAnnualInterestRate={CalculateEffectiveAnnualInterestRate}
           />
         </>
       ) : null}

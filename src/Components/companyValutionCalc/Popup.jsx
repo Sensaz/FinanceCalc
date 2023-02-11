@@ -1,15 +1,17 @@
-import "../../Styles/Popup.sass";
+import "../../Styles/toMany/Popup.sass";
 
 const Popup = ({ content, setShowPopup }) => {
   return (
-    <div className="popup" >
-      <p>{content}</p>
+    <div className="popup">
+      <p className="popup__content">{content}</p>
       <div
+        className="popup__close"
         onClick={() => {
           setShowPopup(false);
+          document.body.classList.remove('blur')
         }}
       >
-        X WYŁĄCZ
+        WYŁĄCZ
       </div>
     </div>
   );

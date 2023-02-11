@@ -1,26 +1,43 @@
+$form-position: relative
+
+$label-display: block
+$label-margin: 20px
+
+$input-border: 1px solid #333
+$input-border-radius: 3px
+$input-margin: 0 10px
+$input-padding: 5px
+$input-width: 100px
+
+$checkbox-width: auto
+
+$button-background-color: #eee
+$button-cursor: pointer
+$button-padding: 10px
+  
 .form
-  position: relative
-  .form__label
-    display: block
-    margin: 20px
+  position: $form-position
+  &__label
+    display: $label-display
+    margin: $label-margin
     .form__input
-      border: 1px solid black
-      width: 100px
-      padding: 5px
-      margin: 0 10px
-      border-radius: 3px
-    .form__input_type_text
-      margin: 0 10 0 0px
+      border: $input-border
+      width: $input-width
+      padding: $input-padding
+      margin: $input-margin
+      border-radius: $input-border-radius
+    .form__input_type_checkbox
+      margin: $input-margin
       padding: 0
-      width: auto
+      width: $checkbox-width
     .form__select
-      border: 1px solid black
-      min-width: 100px
-      padding: 5px
-      margin: 0 10px
-      border-radius: 3px
-  .form__button
-    background-color: #eee
-    padding: 10px
-    cursor: pointer
+      border: $input-border
+      width: $input-width
+      padding: $input-padding
+      margin: $input-margin
+      border-radius: $input-border-radius
+  &__button
+    background-color: $button-background-color
+    padding: $button-padding
+    cursor: $button-cursor
     
