@@ -1,3 +1,5 @@
+import "../../Styles/toMany/Result.sass";
+
 const CompoundInterestResul = ({
   resultValue,
   timeResultInvesting,
@@ -33,10 +35,10 @@ const CompoundInterestResul = ({
     },
   ];
   return (
-    <div id="result">
+    <div className="result">
       {result.map((el) => {
         return (
-          <p key={el.id}>
+          <p className="result__item" key={el.id}>
             {el.content}
             {el.score}
           </p>

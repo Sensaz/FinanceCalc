@@ -1,9 +1,9 @@
 import { useState } from "react";
-import "../../Styles/./toMany/Form.sass";
 
 import CompanyValutionForm from "./form/CompanyValutionForm";
 import CompnayValutionResult from "./CompnayValutionResult";
 
+// Kalkulator Wyceny Spółki
 const CompanyValutionCalc = () => {
   // Price/Earnings - Cena/Zysk
   const [pe, setPe] = useState();

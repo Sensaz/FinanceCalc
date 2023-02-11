@@ -3,6 +3,7 @@ import React, { useState, useRef, useEffect } from "react";
 import CreditTable from "./CreditTable";
 import CreditForm from "./CreditForm";
 
+// Kalkulator Kredytu
 const CreditCalc = () => {
   // Wartość kredytu
   const [creditValue, setCreditValue] = useState(1000);

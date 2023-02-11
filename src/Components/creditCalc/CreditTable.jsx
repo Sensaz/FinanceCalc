@@ -1,4 +1,6 @@
 import "../../Styles/./toMany/Table.sass";
+import CreditResult from "./CreditResult";
+
 import React from "react";
 const CreditTable = ({
   capitalRepaymentArr,
@@ -73,19 +75,12 @@ const CreditTable = ({
               ))}
             </tbody>
           </table>
-          <div className="result">
-            <p className="result__item">Dostaniesz: {myMoney().toFixed(2)}</p>
-            <p className="result__item">
-              Odsetki cię wyniosą: {odsSum.toFixed(2)}
-            </p>
-            <p className="result__item">
-              Łącznie oddasz Bankowi: {rpkSum.toFixed(2)}
-            </p>
-            <p className="result__item">
-              Efektywna / Rzeczywista Roczna Stopa Procentowa (ERSP / RRSO) ={" "}
-              {ersp} %
-            </p>
-          </div>
+          <CreditResult
+            myMoney={myMoney}
+            odsSum={odsSum}
+            rpkSum={rpkSum}
+            ersp={ersp}
+          />
         </>
       ) : null}
     </>

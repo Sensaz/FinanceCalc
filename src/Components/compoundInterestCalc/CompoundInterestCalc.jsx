@@ -1,8 +1,8 @@
 import { useState } from "react";
-import "../../Styles/./toMany/Form.sass";
+import "../../Styles/compoundInterestCalc/CompoundInterestCalc"
 import CompoundInterestForm from "./CompoundInterestForm";
 import CompoundInterestResul from "./CompoundInterestResul";
-
+// Kalkulator Procentu Składanego
 const CompoundInterestCalc = () => {
   // Kwota Początkowa
   const [basicValue, setBasicValue] = useState(10000);

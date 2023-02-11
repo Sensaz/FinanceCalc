@@ -1,3 +1,5 @@
+import "../../Styles/toMany/Form.sass";
+
 const CompoundInterestForm = ({
   setBasicValue,
   setPeriod,
@@ -44,12 +46,13 @@ const CompoundInterestForm = ({
   const handleExtraPayTypeChange = (event) => {
     setExtraPayType(event.target.value);
   };
-  
+
   return (
-    <form>
-      <label htmlFor="basicValue">
+    <form className="form">
+      <label className="form__label" htmlFor="basicValue">
         Kwota początkowa:
         <input
+          className="form__input"
           type="number"
           id="basicValue"
           value={basicValue}
@@ -58,52 +61,89 @@ const CompoundInterestForm = ({
         />
       </label>
 
-      <label htmlFor="period">
+      <label className="form__label" htmlFor="period">
         Czas trwania
         <input
+          className="form__input"
           type="number"
           value={period}
           onChange={handlePeriodChange}
           min={MIN}
         />
-        <select value={periodType} onChange={handlePeriodTypeChange}>
-          <option value="periodYear">lat</option>
-          <option value="periodMonth">miesięcy</option>
+        <select
+          className="form__select"
+          value={periodType}
+          onChange={handlePeriodTypeChange}
+        >
+          <option className="form__option" value="periodYear">
+            lat
+          </option>
+          <option className="form__option" value="periodMonth">
+            miesięcy
+          </option>
         </select>
       </label>
 
-      <label htmlFor="interest">
+      <label className="form__label" htmlFor="interest">
         Oprocentowanie(%)
         <input
+          className="form__input"
           type="number"
           value={interest}
           onChange={handleInterestChange}
           min={MIN}
         />
         Kapitalizacja oprocentowania
-        <select value={capitalization} onChange={handleCapitalizationChange}>
-          <option value="interestDay">dzienna</option>
-          <option value="interestMonth">miesięczna</option>
-          <option value="interestQuarter">kwartalna</option>
-          <option value="interestSixMonth">półroczna</option>
-          <option value="interestYear">roczna</option>
+        <select
+          className="form__select"
+          value={capitalization}
+          onChange={handleCapitalizationChange}
+        >
+          <option className="form__option" value="interestDay">
+            dzienna
+          </option>
+          <option className="form__option" value="interestMonth">
+            miesięczna
+          </option>
+          <option className="form__option" value="interestQuarter">
+            kwartalna
+          </option>
+          <option className="form__option" value="interestSixMonth">
+            półroczna
+          </option>
+          <option className="form__option" value="interestYear">
+            roczna
+          </option>
         </select>
       </label>
-      <label htmlFor="extraPay">
+      <label className="form__label" htmlFor="extraPay">
         Dodatkowe wpłaty
         <input
+          className="form__input"
           type="number"
           value={extraPay}
           onChange={handleExtraPayChange}
           min={MIN}
         />
-        <select value={extraPayType} onChange={handleExtraPayTypeChange}>
-          <option value="monthly">miesięcznie</option>
-          <option value="quarterly">kwartalnie</option>
-          <option value="yearly">rocznie</option>
+        <select
+          className="form__select"
+          value={extraPayType}
+          onChange={handleExtraPayTypeChange}
+        >
+          <option className="form__option" value="monthly">
+            miesięcznie
+          </option>
+          <option className="form__option" value="quarterly">
+            kwartalnie
+          </option>
+          <option className="form__option" value="yearly">
+            rocznie
+          </option>
         </select>
       </label>
-      <button onClick={calculate}>Oblicz</button>
+      <button className="form__button" onClick={calculate}>
+        Oblicz
+      </button>
     </form>
   );
 };
