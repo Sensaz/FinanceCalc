@@ -24,7 +24,7 @@ const Page = () => {
       default:
         negative("/error");
     }
-  }, [negative]);
+  }, [location.pathname, negative]);
 
   return (
     <Routes>

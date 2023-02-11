@@ -7,10 +7,10 @@ import Page from "./Page";
 const App = () => (
   <Router>
     <div className="app">
-      <aside className="aside">
+      <aside className="app__aside">
         <Navigation />
       </aside>
-      <main className="main">
+      <main className="app__main">
         <Page />
       </main>
     </div>

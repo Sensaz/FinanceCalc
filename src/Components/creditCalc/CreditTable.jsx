@@ -47,9 +47,9 @@ const CreditTable = ({
     <>
       {isActive ? (
         <>
-          <table>
+          <table className="table">
             <thead>
-              <tr>
+              <tr className="table__tr">
                 <th>Rata Numer:</th>
                 <th>Saldo Początkowe długu</th>
                 <th>Odsetki</th>
@@ -60,10 +60,12 @@ const CreditTable = ({
             </thead>
             <tbody>
               {capitalRepaymentArr.current.map((_, index) => (
-                <tr key={index}>
-                  <td key={index + Math.random() * 300}>{index + 1}</td>
+                <tr className="table__tr" key={index}>
+                  <td className="table__td" key={index + Math.random() * 300}>
+                    {index + 1}
+                  </td>
                   {arraysRk.map((el) => (
-                    <td key={index + Math.random() * 300}>
+                    <td className="table__td" key={index + Math.random() * 300}>
                       {el.current[index].toFixed(2)}
                     </td>
                   ))}
@@ -71,11 +73,15 @@ const CreditTable = ({
               ))}
             </tbody>
           </table>
-          <div>
-            <p>Dostaniesz: {myMoney().toFixed(2)}</p>
-            <p>Odsetki cię wyniosą: {odsSum.toFixed(2)}</p>
-            <p>Łącznie oddasz Bankowi: {rpkSum.toFixed(2)}</p>
-            <p>
+          <div className="result">
+            <p className="result__item">Dostaniesz: {myMoney().toFixed(2)}</p>
+            <p className="result__item">
+              Odsetki cię wyniosą: {odsSum.toFixed(2)}
+            </p>
+            <p className="result__item">
+              Łącznie oddasz Bankowi: {rpkSum.toFixed(2)}
+            </p>
+            <p className="result__item">
               Efektywna / Rzeczywista Roczna Stopa Procentowa (ERSP / RRSO) ={" "}
               {ersp} %
             </p>

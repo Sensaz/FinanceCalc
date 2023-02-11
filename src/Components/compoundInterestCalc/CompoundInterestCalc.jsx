@@ -1,5 +1,5 @@
 import { useState } from "react";
-import "../../Styles/Form.sass";
+import "../../Styles/./toMany/Form.sass";
 import CompoundInterestForm from "./CompoundInterestForm";
 import CompoundInterestResul from "./CompoundInterestResul";
 

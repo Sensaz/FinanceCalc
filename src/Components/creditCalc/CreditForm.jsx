@@ -1,4 +1,4 @@
-import "../../Styles/Form.sass";
+import "../../Styles/./toMany/Form.sass";
 
 const CreditForm = ({
   setCreditValue,
@@ -32,10 +32,11 @@ const CreditForm = ({
   };
 
   return (
-    <form onSubmit={handleSubmitForm}>
-      <label htmlFor="credit">
+    <form className="form" onSubmit={handleSubmitForm}>
+      <label className="form__label" htmlFor="credit">
         Jakiej wysokości chciałbyś kredyt?
         <input
+          className="form__input"
           onChange={handleSetCreditValue}
           value={creditValue}
           type="number"
@@ -44,9 +45,10 @@ const CreditForm = ({
         />
       </label>
 
-      <label htmlFor="date">
+      <label className="form__label" htmlFor="date">
         Na ile miesięcy chcesz kredyt?
         <input
+          className="form__input"
           onChange={handleSetDateValue}
           value={dateValue}
           type="number"
@@ -55,9 +57,10 @@ const CreditForm = ({
         />
       </label>
 
-      <label htmlFor="rrso">
+      <label className="form__label" htmlFor="rrso">
         Podaj NRSP kredytu
         <input
+          className="form__input"
           onChange={handleSetRrsoValue}
           value={rrsoValue}
           type="number"
@@ -67,32 +70,43 @@ const CreditForm = ({
         %
       </label>
 
-      <label htmlFor="interest">
+      <label className="form__label" htmlFor="interest">
         Bank pobiera odsetki płatne z
         <select
+          className="form__select"
           onChange={handleSelectInterestStatus}
           value={interestStatus}
           id="interest"
         >
-          <option value="interestTop">Góry</option>
-          <option value="interestBottom">Dołu</option>
+          <option className="form__option" value="interestTop">
+            Góry
+          </option>
+          <option className="form__option" value="interestBottom">
+            Dołu
+          </option>
         </select>
       </label>
 
-      <label htmlFor="commission">
+      <label className="form__label" htmlFor="commission">
         Czy bank pobiera prowizje?
         <select
+          className="form__select"
           onChange={handleSelectCommissionStatus}
           value={commissionStatus}
           id="commission"
         >
-          <option value="commissionYes">Tak</option>
-          <option value="commissionNo">Nie</option>
+          <option className="form__option" value="commissionYes">
+            Tak
+          </option>
+          <option className="form__option" value="commissionNo">
+            Nie
+          </option>
         </select>
         {commissionStatus === "commissionYes" ? (
           <>
             ile wynosi?
             <input
+              className="form__input"
               onChange={handleSetCommissionValue}
               value={commissionValue}
               type="number"
@@ -103,21 +117,29 @@ const CreditForm = ({
         ) : null}
       </label>
 
-      <label htmlFor="paymentInstallments">
+      <label className="form__label" htmlFor="paymentInstallments">
         Biore kredyt spłacany metodą
         <select
+          className="form__select"
           onChange={handlePaymentInstallments}
           value={paymentInstallments}
           id="paymentInstallments"
         >
           {/* Equal capital installments */}
-          <option value="eci">Równych Rat Kapitałowych</option>
+          <option className="form__option" value="eci">
+            Równych Rat Kapitałowych
+          </option>
           {/* Equal loan payment installments */}
-          <option value="elpi">Równych Rat Płatności Kredytu</option>
+          <option className="form__option" value="elpi">
+            Równych Rat Płatności Kredytu
+          </option>
         </select>
       </label>
 
-      <button onClick={handleSelectedAmortizationMethod}>
+      <button
+        className="form__button"
+        onClick={handleSelectedAmortizationMethod}
+      >
         {isActive
           ? "Ukryj Tabele Amortyzacji Kredytu"
           : "Pokaż Tabele Amortyzacji Kredytu"}

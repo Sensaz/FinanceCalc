@@ -1,10 +1,12 @@
+import "../Styles/HomePage.sass";
+
 const HomePage = () => {
   return (
-    <p>
+    <div className="homePage">
       Strona przedstawiać docelowo będzie wiele kalkulatorów mających na celu
       pomóc w zakresie zarządzania własnymi finansami
-    </p>
+    </div>
   );
 };
 
-export default HomePage
+export default HomePage;

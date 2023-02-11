@@ -1,14 +1,15 @@
 .list 
   list-style-type: none
-  .list-item
+  .list__item
     margin: 15px 0
-    a.active
-      border-left: 10px solid rgb(2 132 199)
     a
+      position: relative
       text-decoration: none
       color: black
       transition: color .2s linear
     a:hover
-      position: relative
       left: 10px
-      color: rgb(2 132 199)
+      color: rgb(2, 132, 199)
+    a.active
+      left: 0
+      border-left: 10px solid rgb(2, 132, 199)
