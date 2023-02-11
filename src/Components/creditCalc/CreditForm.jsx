@@ -78,10 +78,10 @@ const CreditForm = ({
           value={interestStatus}
           id="interest"
         >
-          <option className="form__option" value="interestTop">
+          <option className="select__option" value="interestTop">
             Góry
           </option>
-          <option className="form__option" value="interestBottom">
+          <option className="select__option" value="interestBottom">
             Dołu
           </option>
         </select>
@@ -95,10 +95,10 @@ const CreditForm = ({
           value={commissionStatus}
           id="commission"
         >
-          <option className="form__option" value="commissionYes">
+          <option className="select__option" value="commissionYes">
             Tak
           </option>
-          <option className="form__option" value="commissionNo">
+          <option className="select__option" value="commissionNo">
             Nie
           </option>
         </select>
@@ -126,11 +126,11 @@ const CreditForm = ({
           id="paymentInstallments"
         >
           {/* Equal capital installments */}
-          <option className="form__option" value="eci">
+          <option className="select__option" value="eci">
             Równych Rat Kapitałowych
           </option>
           {/* Equal loan payment installments */}
-          <option className="form__option" value="elpi">
+          <option className="select__option" value="elpi">
             Równych Rat Płatności Kredytu
           </option>
         </select>

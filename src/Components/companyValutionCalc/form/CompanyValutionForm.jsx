@@ -93,10 +93,11 @@ const CompanyValutionForm = ({
   };
 
   return (
-    <form onSubmit={handleSubmitForm}>
-      <label>
+    <form className="form" onSubmit={handleSubmitForm}>
+      <label className="form__label">
         Wartość firmy:
         <input
+          className="form__input"
           type="number"
           value={businessValue}
           onChange={handleBusinessValue}
@@ -104,9 +105,10 @@ const CompanyValutionForm = ({
           required
         />
       </label>
-      <label>
+      <label className="form__label">
         Zysk z 12 miesięcy:
         <input
+          className="form__input"
           type="number"
           value={lastYearProfit}
           onChange={handleLastYearProfit}
@@ -114,9 +116,10 @@ const CompanyValutionForm = ({
           required
         />
       </label>
-      <label>
+      <label className="form__label">
         Przychód z 12 miesięcy:
         <input
+          className="form__input"
           type="number"
           value={lastYearIncome}
           onChange={handleLastYearIncome}
@@ -124,9 +127,10 @@ const CompanyValutionForm = ({
           required
         />
       </label>
-      <label>
+      <label className="form__label">
         Giełdowa cena akcji danej spółki:
         <input
+          className="form__input"
           type="number"
           value={stockActionValue}
           onChange={handleStockActionValue}
@@ -134,9 +138,10 @@ const CompanyValutionForm = ({
           required
         />
       </label>
-      <label>
+      <label className="form__label">
         Łączna ilość akcji danej spółki:
         <input
+          className="form__input"
           type="number"
           value={totalStockAction}
           onChange={handleTotalStockAction}
@@ -144,9 +149,10 @@ const CompanyValutionForm = ({
           required
         />
       </label>
-      <label>
+      <label className="form__label">
         Nominalna wartość dywidendy przypadająca na 1 akcje:
         <input
+          className="form__input"
           type="number"
           value={nominalDividendValuePerShare}
           onChange={handleNominalDividendValuePerShareChange}
@@ -154,30 +160,32 @@ const CompanyValutionForm = ({
           required
         />
       </label>
-      <label>
+      <label className="form__label">
         Wartość wszystkich aktywów danej spółki:
         <input
+          className="form__input"
           type="number"
           value={assets}
           onChange={handleAssetsChange}
           min={0}
         />
       </label>
-      <label>
+      <label className="form__label">
         Wartość wszystkich zobowiązań danej społki:
         <input
+          className="form__input"
           type="number"
           value={liabilities}
           onChange={handleLiabilitiesChange}
           min={0}
         />
       </label>
-      <label>Zaznacz zdanie jeśli Spółka...:</label>
+      <label className="form__label">Zaznacz zdanie jeśli Spółka...:</label>
       <FScoreSurvey
         checkedOptions={checkedOptions}
         setCheckedOptions={setCheckedOptions}
       />
-      <button>Oblicz</button>
+      <button className="form__button">Oblicz</button>
     </form>
   );
 };

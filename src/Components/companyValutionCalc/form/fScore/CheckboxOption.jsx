@@ -1,6 +1,7 @@
 const CheckboxOption = ({ id, value, checked, onCheckedChange }) => (
-  <label>
+  <label className="form__label">
     <input
+      className="form__input form__input_type_text"
       type="checkbox"
       id={id}
       checked={checked}

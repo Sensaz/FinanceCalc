@@ -75,10 +75,10 @@ const CompoundInterestForm = ({
           value={periodType}
           onChange={handlePeriodTypeChange}
         >
-          <option className="form__option" value="periodYear">
+          <option className="select__option" value="periodYear">
             lat
           </option>
-          <option className="form__option" value="periodMonth">
+          <option className="select__option" value="periodMonth">
             miesięcy
           </option>
         </select>
@@ -99,19 +99,19 @@ const CompoundInterestForm = ({
           value={capitalization}
           onChange={handleCapitalizationChange}
         >
-          <option className="form__option" value="interestDay">
+          <option className="select__option" value="interestDay">
             dzienna
           </option>
-          <option className="form__option" value="interestMonth">
+          <option className="select__option" value="interestMonth">
             miesięczna
           </option>
-          <option className="form__option" value="interestQuarter">
+          <option className="select__option" value="interestQuarter">
             kwartalna
           </option>
-          <option className="form__option" value="interestSixMonth">
+          <option className="select__option" value="interestSixMonth">
             półroczna
           </option>
-          <option className="form__option" value="interestYear">
+          <option className="select__option" value="interestYear">
             roczna
           </option>
         </select>
@@ -130,13 +130,13 @@ const CompoundInterestForm = ({
           value={extraPayType}
           onChange={handleExtraPayTypeChange}
         >
-          <option className="form__option" value="monthly">
+          <option className="select__option" value="monthly">
             miesięcznie
           </option>
-          <option className="form__option" value="quarterly">
+          <option className="select__option" value="quarterly">
             kwartalnie
           </option>
-          <option className="form__option" value="yearly">
+          <option className="select__option" value="yearly">
             rocznie
           </option>
         </select>
