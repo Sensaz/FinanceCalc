@@ -1,4 +1,4 @@
-import "../../Styles/CreditCalc.sass";
+import "../../Styles/./creditCalc/CreditCalc.sass";
 import React, { useState, useRef, useEffect } from "react";
 import CreditTable from "./CreditTable";
 import CreditForm from "./CreditForm";
@@ -70,7 +70,13 @@ const CreditCalc = () => {
   // Tablica dla sald końcowych długu
   const finalDebtBalanceArr = useRef([finalDebtBalance]);
 
-  const arraysRk = [initialDebtBalanceArr, interestPaymentArr, capitalRepaymentArr, totalLoanRepaymentArr, finalDebtBalanceArr];
+  const arraysRk = [
+    initialDebtBalanceArr,
+    interestPaymentArr,
+    capitalRepaymentArr,
+    totalLoanRepaymentArr,
+    finalDebtBalanceArr,
+  ];
 
   useEffect(() => {
     return () => {
@@ -99,22 +105,37 @@ const CreditCalc = () => {
       // ---------------------------------
       // ---------------------------------
       initialDebtBalance = initialDebtBalance - capitalRepayment;
-      initialDebtBalanceArr.current = [...initialDebtBalanceArr.current, initialDebtBalance];
+      initialDebtBalanceArr.current = [
+        ...initialDebtBalanceArr.current,
+        initialDebtBalance,
+      ];
       // ---------------------------------
       // ---------------------------------
       interestPayment = initialDebtBalance * basePeriodInterest;
-      interestPaymentArr.current = [...interestPaymentArr.current, interestPayment];
+      interestPaymentArr.current = [
+        ...interestPaymentArr.current,
+        interestPayment,
+      ];
       // ---------------------------------
       // ---------------------------------
-      capitalRepaymentArr.current = [...capitalRepaymentArr.current, capitalRepayment];
+      capitalRepaymentArr.current = [
+        ...capitalRepaymentArr.current,
+        capitalRepayment,
+      ];
       // ---------------------------------
       // ---------------------------------
       totalLoanRepayment = capitalRepayment + interestPayment;
-      totalLoanRepaymentArr.current = [...totalLoanRepaymentArr.current, totalLoanRepayment];
+      totalLoanRepaymentArr.current = [
+        ...totalLoanRepaymentArr.current,
+        totalLoanRepayment,
+      ];
       // ---------------------------------
       // ---------------------------------
       finalDebtBalance = initialDebtBalance - capitalRepayment;
-      finalDebtBalanceArr.current = [...finalDebtBalanceArr.current, finalDebtBalance];
+      finalDebtBalanceArr.current = [
+        ...finalDebtBalanceArr.current,
+        finalDebtBalance,
+      ];
     }
 
     arraysRk.forEach((arr) => {
@@ -139,21 +160,33 @@ const CreditCalc = () => {
       // ---------------------------------
       // ---------------------------------
       initialDebtBalance = initialDebtBalance - capitalRepayment;
-      initialDebtBalanceArr.current = [...initialDebtBalanceArr.current, initialDebtBalance];
+      initialDebtBalanceArr.current = [
+        ...initialDebtBalanceArr.current,
+        initialDebtBalance,
+      ];
       // ---------------------------------
       // ---------------------------------
       interestPaymentArr.current = [...interestPaymentArr.current, 0];
       // ---------------------------------
       // ---------------------------------
-      capitalRepaymentArr.current = [...capitalRepaymentArr.current, capitalRepayment];
+      capitalRepaymentArr.current = [
+        ...capitalRepaymentArr.current,
+        capitalRepayment,
+      ];
       // ---------------------------------
       // ---------------------------------
       totalLoanRepayment = capitalRepayment;
-      totalLoanRepaymentArr.current = [...totalLoanRepaymentArr.current, totalLoanRepayment];
+      totalLoanRepaymentArr.current = [
+        ...totalLoanRepaymentArr.current,
+        totalLoanRepayment,
+      ];
       // ---------------------------------
       // ---------------------------------
       finalDebtBalance = initialDebtBalance - capitalRepayment;
-      finalDebtBalanceArr.current = [...finalDebtBalanceArr.current, finalDebtBalance];
+      finalDebtBalanceArr.current = [
+        ...finalDebtBalanceArr.current,
+        finalDebtBalance,
+      ];
     }
     arraysRk.forEach((arr) => {
       arr.current.splice(-1);
@@ -181,22 +214,37 @@ const CreditCalc = () => {
       // ---------------------------------
       // ---------------------------------
       initialDebtBalance = initialDebtBalance - capitalRepayment;
-      initialDebtBalanceArr.current = [...initialDebtBalanceArr.current, initialDebtBalance];
+      initialDebtBalanceArr.current = [
+        ...initialDebtBalanceArr.current,
+        initialDebtBalance,
+      ];
       // ---------------------------------
       // ---------------------------------
       interestPayment = initialDebtBalance * basePeriodInterest;
-      interestPaymentArr.current = [...interestPaymentArr.current, interestPayment];
+      interestPaymentArr.current = [
+        ...interestPaymentArr.current,
+        interestPayment,
+      ];
       // ---------------------------------
       // ---------------------------------
       capitalRepayment = totalLoanRepayment - interestPayment;
-      capitalRepaymentArr.current = [...capitalRepaymentArr.current, capitalRepayment];
+      capitalRepaymentArr.current = [
+        ...capitalRepaymentArr.current,
+        capitalRepayment,
+      ];
       // ---------------------------------
       // ---------------------------------
-      totalLoanRepaymentArr.current = [...totalLoanRepaymentArr.current, totalLoanRepayment];
+      totalLoanRepaymentArr.current = [
+        ...totalLoanRepaymentArr.current,
+        totalLoanRepayment,
+      ];
       // ---------------------------------
       // ---------------------------------
       finalDebtBalance = initialDebtBalance - capitalRepayment;
-      finalDebtBalanceArr.current = [...finalDebtBalanceArr.current, finalDebtBalance];
+      finalDebtBalanceArr.current = [
+        ...finalDebtBalanceArr.current,
+        finalDebtBalance,
+      ];
     }
     arraysRk.forEach((arr) => {
       arr.current.splice(-1);
@@ -204,7 +252,7 @@ const CreditCalc = () => {
     setIsActive((prev) => !prev);
   };
 
-  const handleSelectedAmortizationMethod  = () => {
+  const handleSelectedAmortizationMethod = () => {
     if (interestStatus === "interestBottom") {
       if (paymentInstallments === "elpi") {
         calculateEqualInstallmentsOfLoanPayments();
@@ -217,7 +265,7 @@ const CreditCalc = () => {
   };
 
   return (
-    <div>
+    <div className="creditCalc">
       <CreditForm
         setCreditValue={setCreditValue}
         setDateValue={setDateValue}
@@ -225,9 +273,7 @@ const CreditCalc = () => {
         setInterestStatus={setInterestStatus}
         setCommissionStatus={setCommissionStatus}
         setCommissionValue={setCommissionValue}
-        handleSelectedAmortizationMethod ={
-          handleSelectedAmortizationMethod 
-        }
+        handleSelectedAmortizationMethod={handleSelectedAmortizationMethod}
         setPaymentInstallments={setPaymentInstallments}
         creditValue={creditValue}
         dateValue={dateValue}

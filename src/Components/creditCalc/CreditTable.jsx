@@ -1,4 +1,4 @@
-import "../../Styles/Table.sass";
+import "../../Styles/./toMany/Table.sass";
 import React from "react";
 const CreditTable = ({
   capitalRepaymentArr,
