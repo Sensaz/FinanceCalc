@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "../../Styles/companyValutionCalc/CompanyValutionCalc.sass"
 import CompanyValutionForm from "./form/CompanyValutionForm";
-import CompnayValutionResult from "./CompnayValutionResult";
+import CompanyValutionResult from "./CompanyValutionResult";
 
 // Kalkulator Wyceny Spółki
 const CompanyValutionCalc = () => {
@@ -37,7 +37,7 @@ const CompanyValutionCalc = () => {
         setCheckedOptions={setCheckedOptions}
       />
       {flag && (
-        <CompnayValutionResult
+        <CompanyValutionResult
           pe={pe}
           ps={ps}
           pbv={pbv}

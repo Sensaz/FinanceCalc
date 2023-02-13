@@ -35,19 +35,15 @@ const CompoundInterestCalc = () => {
     const periods =
       periodType === "periodMonth" ? parseInt(period) : period * 12;
 
-    let payTypeRatio = 0;
     // eslint-disable-next-line default-case
-    switch (extraPayType) {
-      case "monthly":
-        payTypeRatio = 1;
-        break;
-      case "quarterly":
-        payTypeRatio = 4;
-        break;
-      case "yearly":
-        payTypeRatio = 12;
-        break;
-    }
+    const extraPayTypes = {
+      monthly: 1,
+      quarterly: 3,
+      yearly: 12,
+    };
+
+    const payTypeRatio = extraPayTypes[extraPayType];
+
     return extraPay * (periods / payTypeRatio);
   };
 

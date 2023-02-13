@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "../../Styles/toMany/Result.sass";
 import Popup from "./Popup";
+import fetchMock from "fetch-mock";
 
-const CompnayValutionResult = ({
+const CompanyValutionResult = ({
   ps,
   pe,
   pbv,
@@ -11,10 +12,15 @@ const CompnayValutionResult = ({
   roe,
   checkedOptions,
 }) => {
+  const [showPopup, setShowPopup] = useState(false);
+  const [popupContent, setPopupContent] = useState();
+  const [companyValutionResultJSON, setCompanyValutionResultJSON] = useState(
+    []
+  );
   const help = [
     {
       id: 0,
-      title: `P/E Wynosi:`,
+      title: `P/E Wynosi: `,
       info: `Współczynnik P/E - Price/Earnings czyli Cena/Zysk określa wartość firmy do jej dochodu generalnie im niższy tym lepiej, określa on czy akcje danej firmy są przewartościowane czy też niedowartościowane. Może on przekłamać dane w przypadku gdy wystąpi recesja lub sektor jest mocno podatny na recesje czytaj nie jest pierwszej potrzeby lub gdy wystąpi takzwany ponad planowy zysk czyli gdy firma nagle sprzeda swoje aktywa.
 
        P/E <= 5 - Świetna okazja
@@ -27,7 +33,7 @@ const CompnayValutionResult = ({
     },
     {
       id: 1,
-      title: `P/S Wynosi:`,
+      title: `P/S Wynosi: `,
       info: `Współczynnik P/S -Price/Sales czyli Cena/Sprzedaż określa wartość ceny akcji do wartości jej sprzedaży, jest on wartościowy tylko gdy porównujemy ze sobą firmy z tej samej branży. Wynik oznacza że cena jednej akcji jest równa x * wartość sprzedaży na jedną akcje. Generalnie im niższy P/S tym lepiej.
 
        P/S > 1 oznacza to, że cena jednej akcji jest wyższa niż wartość sprzedaży na jedną akcję
@@ -38,7 +44,7 @@ const CompnayValutionResult = ({
     },
     {
       id: 2,
-      title: `P/BV Wynosi:`,
+      title: `P/BV Wynosi: `,
       info: `Współczynnik P/BV - Price/BookValue czyli Cena/WartośćKsięgowa określa wartość giełdową spółki w relacji do jej wartości księgowej gdzie wartością kesięgową jest suma wszystkich aktywów pomniejszona o zobowiązania spółki. Dzeięki temu Współczynnikowi możemy oszacować czy cena kacji firmy jest przewartościowana czy też niedowartościowana
       
       P/BV > 100% - Przewartościowane akcje
@@ -48,19 +54,19 @@ const CompnayValutionResult = ({
     },
     {
       id: 3,
-      title: `Poziom Dywidendy Wynosi:`,
+      title: `Poziom Dywidendy Wynosi: `,
       info: `Poziom Dywidendy określa jaki % wartości akcji spółka po roku daje dodatkowo jej posiadaczowi. Dobry poziom dywidendy oscyluje w granicach 8%`,
       score: dividendYield + "%",
     },
     {
       id: 4,
-      title: `Współczynnik Wypłat Dywidendy Wynosi:`,
+      title: `Współczynnik Wypłat Dywidendy Wynosi: `,
       info: `Współczynnik Wypłat Dywidendy określa jaki % spółka przeznacza ze swoich Rocznych zysków na wypłaty dywidendy. Zdrowy poziom dla spółki oscyluje w granicach 40% a na pewno nie powinien przekraczać 100%`,
       score: dividendPayoutRatio + "%",
     },
     {
       id: 5,
-      title: `ROE wynosi:`,
+      title: `ROE wynosi: `,
       info: `ROE - Return On Equality czyli gotówna w relacji do zadłużenia. Wskaźnik ten pokazuje wysokość potencjału spółki do generowania zysków. Wyraża w procentach zysk netto spółki w porównaniu z jej kapitałem
       
       ROE może zostać zawyżone gdy spółka się zadłuży lub dokona jednorazowej sprzedaży majątku
@@ -74,27 +80,49 @@ const CompnayValutionResult = ({
     },
     {
       id: 6,
-      title: `F-Score wynosi:`,
+      title: `F-Score wynosi: `,
       info: `F-Score - wskaźnik Piotroskiego, pokazuje jak sytuacja finansowa spółki poprawiła się (wynik bliżej 9) czy pogorszyła (wynik bliżej 0). Spółce przyznajemy po punkcie za każde zgadzające się zdanie. F-Score daje obraz zmiany w stosunku do poprzedniego roku, przy tym wskaźniku ważne jest upenwienie się że firma nie działa w złej branży w złym czasie`,
       score: checkedOptions.length,
     },
   ];
 
-  const [showPopup, setShowPopup] = useState(false);
-  const [popupContent, setPopupContent] = useState();
+  const db = require("../../db.json");
 
-  const handleHelpClick = (e) => {
+  fetchMock.get(
+    "*",
+    {
+      status: 200,
+      body: db,
+    },
+    { overwriteRoutes: true }
+  );
+
+  let i = 0;
+
+  useEffect(() => {
+    fetch("/some/api/endpoint")
+      .then((response) => response.json())
+      .then((data) => {
+        setCompanyValutionResultJSON(data.CompanyValutionResult);
+        // console.log(data.CompanyValutionResult[0]);
+      })
+      .catch((err) => console.log(err));
+  }, [db]);
+  console.log(companyValutionResultJSON[0]?.title);
+
+  function handleHelpClick(e) {
     setShowPopup(true);
     const contentInfo = e.currentTarget.getAttribute("contentInfo");
     setPopupContent(contentInfo);
     document.body.classList.add("blur");
-  };
+  }
   return (
     <div className="result">
       {help.map(({ id, title, info, score }) => {
         return (
           <p key={id} className="result__item">
-            {title} {score}
+            {title}
+            {score}
             <span
               contentInfo={info}
               className="result__item-info"
@@ -103,6 +131,7 @@ const CompnayValutionResult = ({
               {" "}
               [?]
             </span>
+            {(i += 1)}
           </p>
         );
       })}
@@ -112,4 +141,4 @@ const CompnayValutionResult = ({
     </div>
   );
 };
-export default CompnayValutionResult;
+export default CompanyValutionResult;

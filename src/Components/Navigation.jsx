@@ -25,7 +25,7 @@ const nav = [
 
 const Navigation = () => {
   const links = nav.map((link) => (
-    <li class="list__item" key={link.id}>
+    <li className="list__item" key={link.id}>
       <NavLink to={link.path}>{link.content}</NavLink>
     </li>
   ));
