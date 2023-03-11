@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/FinanceCalc/static/css/main.f9bcac03.css",
+    "main.js": "/FinanceCalc/static/js/main.e720c947.js",
+    "static/js/787.0d49de76.chunk.js": "/FinanceCalc/static/js/787.0d49de76.chunk.js",
+    "index.html": "/FinanceCalc/index.html",
+    "main.f9bcac03.css.map": "/FinanceCalc/static/css/main.f9bcac03.css.map",
+    "main.e720c947.js.map": "/FinanceCalc/static/js/main.e720c947.js.map",
+    "787.0d49de76.chunk.js.map": "/FinanceCalc/static/js/787.0d49de76.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.f9bcac03.css",
+    "static/js/main.e720c947.js"
+  ]
+}
