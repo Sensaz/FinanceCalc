@@ -35,6 +35,7 @@ const Page = () => {
   return (
     <Routes>
       <Route path="/" exact element={<HomePage />} />
+      <Route path="/FinanceCalc" exact element={<Navigate to="/" replace />} />
       <Route path="/companyValutionCalc" element={<CompanyValutionCalc />} />
       <Route path="/compoundInterestCalc" element={<CompoundInterestCalc />} />
       <Route path="/creditCalc" element={<CreditCalc />} />
